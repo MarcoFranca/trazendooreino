@@ -1,0 +1,126 @@
+export const pillars = [
+    {
+        title: "Cristo como centro",
+        text: "Toda leitura pergunta como o texto aponta para Cristo, prepara Cristo, revela nossa necessidade dele ou encontra cumprimento nele.",
+    },
+    {
+        title: "Escritura como regra",
+        text: "A base doutrinária vem da Escritura: Tanakh, Evangelhos e ensino apostólico.",
+    },
+    {
+        title: "Reino como mensagem",
+        text: "A Bíblia revela o governo de Deus, a rebelião humana e a restauração prometida em Cristo.",
+    },
+    {
+        title: "Graça como segurança",
+        text: "O estudo não produz medo escravizante ou performance espiritual, mas conduz à confiança na graça de Deus.",
+    },
+];
+
+export const genesisWeeks = [
+    {
+        week: 0,
+        reading: "Lucas 24:44; João 5:39; 2Tm 3:16–17; Gl 1:8",
+        title: "Como ler as Escrituras com Cristo no centro",
+        christ: "Cristo como chave da Escritura",
+        kingdom: "O Reino como mensagem bíblica",
+    },
+    {
+        week: 1,
+        reading: "Gênesis 1–2",
+        title: "Deus Criador e o homem como imagem",
+        christ: "O Verbo por quem tudo foi criado",
+        kingdom: "Deus governa a criação",
+    },
+    {
+        week: 2,
+        reading: "Gênesis 3",
+        title: "A queda e a primeira promessa",
+        christ: "A Semente que vence a serpente",
+        kingdom: "Pecado é rebelião contra Deus",
+    },
+    {
+        week: 3,
+        reading: "Gênesis 4–5",
+        title: "Dois caminhos diante de Deus",
+        christ: "O sangue justo e a fé que agrada a Deus",
+        kingdom: "O coração humano se divide diante do Rei",
+    },
+    {
+        week: 4,
+        reading: "Gênesis 6–9",
+        title: "Noé: juízo, graça e recomeço",
+        christ: "Salvação pela graça em meio ao juízo",
+        kingdom: "Deus julga o mal e preserva a vida",
+    },
+    {
+        week: 5,
+        reading: "Gênesis 10–11",
+        title: "Babel e os reinos dos homens",
+        christ: "Cristo reúne o que o pecado espalhou",
+        kingdom: "Império humano contra o Reino de Deus",
+    },
+    {
+        week: 6,
+        reading: "Gênesis 12–15",
+        title: "Abraão: chamado, promessa e fé",
+        christ: "A bênção às nações em Cristo",
+        kingdom: "O Reino avança por promessa",
+    },
+    {
+        week: 7,
+        reading: "Gênesis 16–18",
+        title: "Esperar em Deus ou produzir Ismael",
+        christ: "A promessa depende de Deus, não da carne",
+        kingdom: "Fé contra controle humano",
+    },
+    {
+        week: 8,
+        reading: "Gênesis 19–21",
+        title: "Juízo, livramento e filho da promessa",
+        christ: "Deus preserva a linhagem da promessa",
+        kingdom: "O Reino separa, julga e cumpre",
+    },
+    {
+        week: 9,
+        reading: "Gênesis 22",
+        title: "O Senhor proverá",
+        christ: "O filho amado e a provisão de Deus",
+        kingdom: "Adoração, entrega e confiança total",
+    },
+    {
+        week: 10,
+        reading: "Gênesis 23–26",
+        title: "A promessa continua",
+        christ: "A aliança atravessa gerações",
+        kingdom: "Deus mantém sua palavra",
+    },
+    {
+        week: 11,
+        reading: "Gênesis 27–31",
+        title: "Jacó: engano, fuga e graça",
+        christ: "Deus alcança pessoas quebradas",
+        kingdom: "O Reino transforma enganadores em servos",
+    },
+    {
+        week: 12,
+        reading: "Gênesis 32–36",
+        title: "Um novo nome, um novo homem",
+        christ: "Rendição, transformação e identidade",
+        kingdom: "O Reino forma um povo novo",
+    },
+    {
+        week: 13,
+        reading: "Gênesis 37–41",
+        title: "José: sofrimento e providência",
+        christ: "O justo humilhado e exaltado",
+        kingdom: "Deus governa mesmo no silêncio",
+    },
+    {
+        week: 14,
+        reading: "Gênesis 42–50",
+        title: "Perdão, preservação e redenção",
+        christ: "Deus transforma mal em salvação",
+        kingdom: "Reconciliação, missão e preservação da promessa",
+    },
+];
