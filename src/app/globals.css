@@ -76,197 +76,26 @@ body {
   color: #fff;
 }
 
-.sacred-grid {
-  background-image:
-          linear-gradient(rgba(214, 181, 109, 0.06) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(214, 181, 109, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
-.sacred-noise {
-  background-image:
-          radial-gradient(circle at 50% 0%, rgba(214, 181, 109, 0.22), transparent 34%),
-          radial-gradient(circle at 80% 18%, rgba(122, 90, 46, 0.18), transparent 30%),
-          linear-gradient(to bottom, rgba(255,255,255,0.035), transparent);
-}
-.sacred-grid {
-  background-image:
-          linear-gradient(rgba(214, 181, 109, 0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(214, 181, 109, 0.05) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
-.glow-text {
-  text-shadow:
-          0 0 24px rgba(214, 181, 109, 0.18),
-          0 0 48px rgba(214, 181, 109, 0.08);
-}
-
-.sacred-card {
-  background:
-          linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  border: 1px solid rgba(214, 181, 109, 0.18);
-  box-shadow:
-          0 10px 30px rgba(0,0,0,0.35),
-          inset 0 1px 0 rgba(255,255,255,0.04),
-          0 0 0 1px rgba(255,255,255,0.02);
-  backdrop-filter: blur(18px);
-}
-
-.light-beam {
-  position: absolute;
-  inset: auto;
-  width: 40vw;
-  height: 60vh;
-  background: linear-gradient(to bottom, rgba(255,245,220,0.12), transparent);
-  filter: blur(40px);
-  transform: rotate(-8deg);
-  opacity: 0.4;
-}
-
-.cta-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-shimmer::after {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: -30%;
-  width: 30%;
-  height: 140%;
-  transform: rotate(18deg);
-  background: linear-gradient(
-          to right,
-          transparent,
-          rgba(255,255,255,0.25),
-          transparent
-  );
-  animation: shimmer 4.8s infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -35%; }
-  100% { left: 130%; }
-}
-
-.float-slow {
-  animation: floatSlow 8s ease-in-out infinite;
-}
-
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.8;
-    filter: blur(120px);
-  }
-  50% {
-    opacity: 1;
-    filter: blur(140px);
-  }
-}
-
-/* Atmosfera sagrada */
-.sacred-grid {
-  background-image:
-          linear-gradient(rgba(214, 181, 109, 0.045) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(214, 181, 109, 0.045) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
-.noise-layer {
-  background-image:
-          radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
-          radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px),
-          radial-gradient(circle at 45% 80%, rgba(214, 181, 109, 0.08) 0 1px, transparent 1px);
-  background-size: 28px 28px, 46px 46px, 64px 64px;
-  opacity: 0.18;
-}
-
-.glow-text {
-  text-shadow:
-          0 0 24px rgba(214, 181, 109, 0.2),
-          0 0 64px rgba(214, 181, 109, 0.12);
-}
-
-.sacred-card {
-  background:
-          radial-gradient(circle at 50% 0%, rgba(214, 181, 109, 0.12), transparent 42%),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
-  border: 1px solid rgba(214, 181, 109, 0.22);
-  box-shadow:
-          0 30px 90px rgba(0, 0, 0, 0.55),
-          0 0 80px rgba(214, 181, 109, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-}
-
-.cta-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-shimmer::after {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -35%;
-  width: 28%;
-  height: 180%;
-  transform: rotate(18deg);
-  background: linear-gradient(
-          to right,
-          transparent,
-          rgba(255, 255, 255, 0.42),
-          transparent
-  );
-  animation: shimmer 4.5s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    left: -35%;
-  }
-  100% {
-    left: 130%;
-  }
-}
-
-.sacred-divider {
-  background: linear-gradient(
-          to right,
-          transparent,
-          rgba(214, 181, 109, 0.45),
-          transparent
-  );
-}
-/* Cursor padrão para elementos clicáveis */
 @layer base {
-  button,
-  [type="button"],
-  [type="submit"],
-  [role="button"],
-  .btn {
-    @apply cursor-pointer;
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 
-  /* Estados desabilitados (inclui padrões do shadcn) */
   button:disabled,
-  [type="button"]:disabled,
-  [type="submit"]:disabled,
   [aria-disabled="true"],
   [data-disabled="true"] {
-    @apply cursor-not-allowed;
+    cursor: not-allowed;
   }
+}
+
+body {
+  background: #030303;
+}
+
+::selection {
+  background: rgba(214, 181, 109, 0.28);
+  color: white;
 }
 
 .font-body {
@@ -287,36 +116,30 @@ body {
 
 .sacred-grid {
   background-image:
-          linear-gradient(rgba(214, 181, 109, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(214, 181, 109, 0.04) 1px, transparent 1px);
-  background-size: 72px 72px;
+          linear-gradient(rgba(214, 181, 109, 0.032) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(214, 181, 109, 0.032) 1px, transparent 1px);
+  background-size: 88px 88px;
 }
 
 .noise-layer {
   background-image:
-          radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.075) 0 1px, transparent 1px),
-          radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px),
-          radial-gradient(circle at 45% 80%, rgba(214, 181, 109, 0.075) 0 1px, transparent 1px);
-  background-size: 28px 28px, 46px 46px, 64px 64px;
-  opacity: 0.16;
+          radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px),
+          radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px),
+          radial-gradient(circle at 45% 80%, rgba(214, 181, 109, 0.055) 0 1px, transparent 1px);
+  background-size: 34px 34px, 56px 56px, 78px 78px;
+  opacity: 0.13;
 }
 
 .scroll-texture {
-  letter-spacing: -0.02em;
+  letter-spacing: -0.018em;
   text-shadow:
-          0 0 16px rgba(214, 181, 109, 0.14),
-          0 0 42px rgba(214, 181, 109, 0.08);
-}
-
-.glow-text-soft {
-  text-shadow:
-          0 0 18px rgba(214, 181, 109, 0.14),
-          0 0 44px rgba(214, 181, 109, 0.08);
+          0 0 12px rgba(214, 181, 109, 0.12),
+          0 0 36px rgba(214, 181, 109, 0.06);
 }
 
 .sacred-inscription {
   font-family: var(--font-sacred), serif;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
@@ -324,14 +147,14 @@ body {
   position: relative;
   overflow: hidden;
   background:
-          radial-gradient(circle at 50% 0%, rgba(214, 181, 109, 0.12), transparent 42%),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
-  border: 1px solid rgba(214, 181, 109, 0.22);
+          radial-gradient(circle at 50% 0%, rgba(214, 181, 109, 0.09), transparent 42%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(214, 181, 109, 0.16);
   box-shadow:
-          0 30px 90px rgba(0, 0, 0, 0.55),
-          0 0 80px rgba(214, 181, 109, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
+          0 24px 70px rgba(0, 0, 0, 0.48),
+          0 0 54px rgba(214, 181, 109, 0.055),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
 }
 
 .sacred-card::before {
@@ -343,10 +166,10 @@ body {
           linear-gradient(
                   115deg,
                   transparent 0%,
-                  rgba(255, 255, 255, 0.08) 24%,
+                  rgba(255, 255, 255, 0.06) 24%,
                   transparent 42%
           );
-  opacity: 0.35;
+  opacity: 0.25;
 }
 
 .cta-shimmer {
@@ -359,16 +182,16 @@ body {
   position: absolute;
   top: -40%;
   left: -35%;
-  width: 28%;
+  width: 26%;
   height: 180%;
   transform: rotate(18deg);
   background: linear-gradient(
           to right,
           transparent,
-          rgba(255, 255, 255, 0.42),
+          rgba(255, 255, 255, 0.34),
           transparent
   );
-  animation: shimmer 4.5s infinite;
+  animation: shimmer 5.4s infinite;
 }
 
 @keyframes shimmer {
@@ -385,7 +208,7 @@ body {
   background: linear-gradient(
           to right,
           transparent,
-          rgba(214, 181, 109, 0.45),
+          rgba(214, 181, 109, 0.34),
           transparent
   );
 }
