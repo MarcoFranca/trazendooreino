@@ -33,18 +33,20 @@ export function SiteHeader() {
                     <a href="#jornada" className="transition hover:text-foreground">
                         Jornada
                     </a>
+                    <a href="#mapa" className="transition hover:text-foreground">
+                        Mapa
+                    </a>
                     <a href="#metodo" className="transition hover:text-foreground">
                         Método
                     </a>
                     <a href="#genesis" className="transition hover:text-foreground">
-                        Gênesis
+                        Temporada
                     </a>
-                    <a href="#mapa" className="transition hover:text-foreground">
-                        Mapa
-                    </a>
+
                 </nav>
 
-                <Button className="rounded-full bg-primary px-6 text-primary-foreground shadow-[0_0_28px_rgba(214,181,109,0.16)] hover:bg-primary/90">
+                <Button
+                    className="rounded-full bg-primary px-6 text-primary-foreground shadow-[0_0_28px_rgba(214,181,109,0.16)] hover:bg-primary/90">
                     Entrar na jornada
                 </Button>
             </div>

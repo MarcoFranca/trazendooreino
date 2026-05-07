@@ -68,7 +68,7 @@ export function HeroSection() {
                     reduceMotion
                         ? { opacity: 0.48, scale: 1.06 }
                         : {
-                            opacity: [0.42, 0.8, 0.42],
+                            opacity: [0.6, 0.9, 0.6],
                             scale: [1.06, 1.1, 1.06],
                             y: [0, 10, 0],
                         }
@@ -91,12 +91,12 @@ export function HeroSection() {
 
             <div
                 aria-hidden
-                className="absolute inset-0 -z-30 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.22)_0%,rgba(3,3,3,0.66)_44%,rgba(3,3,3,0.97)_100%)]"
+                className="absolute inset-0 -z-30 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.10)_0%, rgba(3,3,3,0.20)_28%, rgba(3,3,3,0.30)_44%,rgba(3,3,3,0.97)_100%)]"
             />
 
             <div
                 aria-hidden
-                className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_8%,rgba(255,232,179,0.2),transparent_26%),radial-gradient(circle_at_50%_42%,rgba(191,145,72,0.08),transparent_42%)]"
+                className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_8%,rgba(255,232,179,0.35),transparent_26%),radial-gradient(circle_at_50%_42%,rgba(191,145,72,0.08),transparent_42%)]"
             />
 
             <motion.div
