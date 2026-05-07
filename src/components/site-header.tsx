@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Crown } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
@@ -7,11 +8,19 @@ export function SiteHeader() {
         <header className="sticky top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
             <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
                 <Link href="/" className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                        <Crown className="size-5 text-primary" />
+                    <div className="flex size-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 shadow-[0_0_28px_rgba(214,181,109,0.12)]">
+                        <Image
+                            src="/logo2.png"
+                            alt="Trazendo o Reino"
+                            width={28}
+                            height={28}
+                            priority
+                            className="h-12 w-12 object-contain"
+                        />
                     </div>
+
                     <div>
-                        <p className="text-sm font-semibold tracking-[0.28em] text-primary">
+                        <p className="font-sacred text-sm font-semibold tracking-[0.28em] text-primary">
                             TRAZENDO O REINO
                         </p>
                         <p className="text-xs text-muted-foreground">
@@ -35,7 +44,7 @@ export function SiteHeader() {
                     </a>
                 </nav>
 
-                <Button className="rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90">
+                <Button className="rounded-full bg-primary px-6 text-primary-foreground shadow-[0_0_28px_rgba(214,181,109,0.16)] hover:bg-primary/90">
                     Entrar na jornada
                 </Button>
             </div>
