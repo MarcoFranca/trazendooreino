@@ -42,7 +42,21 @@ export function JourneyIntroSection() {
         >
             <div
                 aria-hidden
-                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.09),transparent_34%),radial-gradient(circle_at_50%_48%,rgba(214,181,109,0.035),transparent_46%)]"
+                className="absolute inset-0 bg-cover bg-center opacity-[0.22]"
+                style={{
+                    backgroundImage: "url('/images/journey-path.png')",
+                    backgroundPosition: "center center",
+                }}
+            />
+
+            <div
+                aria-hidden
+                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(214,181,109,0.16),transparent_34%),radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.08),transparent_38%)]"
+            />
+
+            <div
+                aria-hidden
+                className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_22%,rgba(0,0,0,0.25)_78%,rgba(0,0,0,0.85)_100%)]"
             />
 
             <div
@@ -57,7 +71,7 @@ export function JourneyIntroSection() {
 
             <div
                 aria-hidden
-                className="absolute left-1/2 top-0 h-[28rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#d6b56d]/8 blur-[140px]"
+                className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#030303] to-transparent"
             />
 
             <div className="relative mx-auto max-w-7xl">
@@ -77,7 +91,7 @@ export function JourneyIntroSection() {
                         </span>
                     </h2>
 
-                    <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/58">
+                    <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/62">
                         A Jornada pelas Escrituras do Reino não foi criada para produzir
                         leitores religiosos. Foi criada para conduzir homens e mulheres
                         através da narrativa da redenção até que Cristo deixe de ser apenas
@@ -87,7 +101,7 @@ export function JourneyIntroSection() {
 
                 <div className="mt-16 grid gap-5 lg:grid-cols-[1.08fr_1.32fr]">
                     <div className="sacred-card rounded-[1.9rem] p-1">
-                        <div className="relative h-full overflow-hidden rounded-[1.65rem] border border-white/8 bg-black/42 p-7 md:p-8">
+                        <div className="relative h-full overflow-hidden rounded-[1.65rem] border border-white/8 bg-black/54 p-7 backdrop-blur-[2px] md:p-8">
                             <div
                                 aria-hidden
                                 className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.11),transparent_42%)]"
@@ -106,7 +120,7 @@ export function JourneyIntroSection() {
 
                                 <div className="h-px w-full bg-gradient-to-r from-[#d6b56d]/35 via-[#d6b56d]/12 to-transparent" />
 
-                                <h3 className="font-display mt-8 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em] text-white md:text-[2.45rem]">
+                                <h3 className="font-display mt-8 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em] text-white drop-shadow-[0_0_24px_rgba(214,181,109,0.08)] md:text-[2.45rem]">
                                     A Palavra conduz.
                                     <span className="block text-white/72">
                                         Cristo confronta.
@@ -116,7 +130,7 @@ export function JourneyIntroSection() {
                                     </span>
                                 </h3>
 
-                                <p className="mt-7 max-w-xl text-base leading-8 text-white/58">
+                                <p className="mt-7 max-w-xl text-base leading-8 text-white/62">
                                     A Jornada existe para conduzir pessoas até Cristo com a
                                     mente renovada, o coração confrontado e a vida reposicionada
                                     diante do Rei.
@@ -137,7 +151,7 @@ export function JourneyIntroSection() {
                         {pillars.map(({ title, description, icon: Icon }) => (
                             <div
                                 key={title}
-                                className="group relative min-h-[15rem] overflow-hidden rounded-[1.65rem] border border-[#d6b56d]/10 bg-white/[0.022] p-7 transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.04]"
+                                className="group relative min-h-[15rem] overflow-hidden rounded-[1.65rem] border border-[#d6b56d]/10 bg-black/36 p-7 backdrop-blur-[2px] transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.04]"
                             >
                                 <div
                                     aria-hidden
@@ -158,7 +172,7 @@ export function JourneyIntroSection() {
                                         {title}
                                     </h3>
 
-                                    <p className="mt-4 text-sm leading-7 text-white/52">
+                                    <p className="mt-4 text-sm leading-7 text-white/56">
                                         {description}
                                     </p>
                                 </div>
@@ -167,11 +181,6 @@ export function JourneyIntroSection() {
                     </div>
                 </div>
             </div>
-
-            <div
-                aria-hidden
-                className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent"
-            />
         </section>
     );
 }
