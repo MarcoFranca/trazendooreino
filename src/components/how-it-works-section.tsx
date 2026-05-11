@@ -47,24 +47,50 @@ export function HowItWorksSection() {
           id="como-funciona"
           className="relative overflow-hidden bg-[#030303] px-6 py-24 text-white md:py-32"
       >
+        {/* imagem no fundo da seção inteira */}
         <div
             aria-hidden
-            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.09),transparent_34%),radial-gradient(circle_at_50%_55%,rgba(214,181,109,0.035),transparent_48%)]"
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: "url('/images/study-table.png')",
+              backgroundPosition: "center top",
+            }}
         />
 
+        {/* camada escura para legibilidade */}
+        <div
+            aria-hidden
+            className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.20)_0%,rgba(3,3,3,0.30)_34%,rgba(3,3,3,0.72)_76%,#030303_100%)]"
+        />
+
+        {/* glow dourado */}
+        <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_8%,rgba(214,181,109,0.12),transparent_34%),radial-gradient(circle_at_50%_56%,rgba(214,181,109,0.045),transparent_48%)]"
+        />
+
+        {/* vinheta */}
+        <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.58)_82%,rgba(0,0,0,0.88)_100%)]"
+        />
+
+        {/* textura */}
         <div
             aria-hidden
             className="absolute inset-0 opacity-[0.032] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]"
         />
 
+        {/* linha superior */}
         <div
             aria-hidden
             className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b56d]/24 to-transparent"
         />
 
+        {/* fade inferior */}
         <div
             aria-hidden
-            className="absolute left-1/2 top-0 h-[26rem] w-[34rem] -translate-x-1/2 rounded-full bg-[#d6b56d]/7 blur-[140px]"
+            className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#030303] to-transparent"
         />
 
         <div className="relative mx-auto max-w-7xl">
@@ -80,11 +106,11 @@ export function HowItWorksSection() {
             <h2 className="font-display mx-auto mt-5 max-w-3xl text-4xl font-semibold leading-tight tracking-[-0.04em] text-white md:text-5xl">
               Um ritmo simples.
               <span className="block bg-gradient-to-b from-[#fff7df] via-[#e9cf8c] to-[#a97935] bg-clip-text text-transparent">
-                            Uma formação profunda.
-                        </span>
+              Uma formação profunda.
+            </span>
             </h2>
 
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/58">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/62">
               Cada temporada tem uma cadência clara: leitura, preparação,
               aprofundamento e resposta. Não para consumir conteúdo. Para
               permanecer diante da Palavra até que ela forme visão, convicção e
@@ -96,7 +122,7 @@ export function HowItWorksSection() {
             {steps.map(({ title, text, icon: Icon }, index) => (
                 <div
                     key={title}
-                    className="group relative min-h-[16rem] overflow-hidden rounded-[1.65rem] border border-[#d6b56d]/10 bg-white/[0.022] p-6 transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.04]"
+                    className="group relative min-h-[16rem] overflow-hidden rounded-[1.65rem] border border-[#d6b56d]/10 bg-black/38 p-6 backdrop-blur-[2px] transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.04]"
                 >
                   <div
                       aria-hidden
@@ -115,17 +141,15 @@ export function HowItWorksSection() {
                       </div>
 
                       <span className="sacred-inscription text-[10px] text-white/24">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                     </div>
 
                     <h3 className="font-display text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] text-white">
                       {title}
                     </h3>
 
-                    <p className="mt-4 text-sm leading-7 text-white/52">
-                      {text}
-                    </p>
+                    <p className="mt-4 text-sm leading-7 text-white/56">{text}</p>
 
                     <div className="mt-7 h-px w-full bg-gradient-to-r from-[#d6b56d]/24 to-transparent opacity-55" />
                   </div>
@@ -134,7 +158,7 @@ export function HowItWorksSection() {
           </div>
 
           <div className="mx-auto mt-14 max-w-3xl">
-            <div className="relative overflow-hidden rounded-[1.55rem] border border-[#d6b56d]/14 bg-[#d6b56d]/[0.045] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <div className="relative overflow-hidden rounded-[1.55rem] border border-[#d6b56d]/14 bg-black/42 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-[2px]">
               <div
                   aria-hidden
                   className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.08),transparent_48%)]"
@@ -145,7 +169,7 @@ export function HowItWorksSection() {
                   A jornada não depende de pressa. Ela depende de permanência.
                 </p>
 
-                <p className="mt-2 text-sm leading-7 text-white/48">
+                <p className="mt-2 text-sm leading-7 text-white/50">
                   Semana após semana, o caminho é o mesmo: abrir as Escrituras,
                   enxergar Cristo, discernir o Reino e responder com fé.
                 </p>
@@ -153,11 +177,6 @@ export function HowItWorksSection() {
             </div>
           </div>
         </div>
-
-        <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent"
-        />
       </section>
   );
 }
