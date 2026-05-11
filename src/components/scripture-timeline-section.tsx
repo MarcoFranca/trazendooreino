@@ -92,10 +92,22 @@ export function ScriptureTimelineSection() {
             id="mapa"
             className="relative overflow-hidden bg-[#030303] px-6 py-24 text-white md:py-28"
         >
+            {/* mapa antigo discreto */}
+            <div
+                aria-hidden
+                className="absolute inset-0 bg-cover bg-top opacity-[0.65] mix-blend-screen"
+                style={{
+                    backgroundImage: "url('/images/ancient-map-bg.png')",
+                    maskImage:
+                        "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.72) 34%, rgba(0,0,0,0.28) 62%, transparent 88%)",
+                    WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.72) 34%, rgba(0,0,0,0.28) 62%, transparent 88%)",
+                }}
+            />
             {/* aura superior */}
             <div
                 aria-hidden
-                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.095),transparent_34%)]"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.045),transparent_34%)]"
             />
 
             {/* textura suave */}
