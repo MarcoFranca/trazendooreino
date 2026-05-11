@@ -6,6 +6,7 @@ import { DiscernmentSection } from "@/components/discernment-section";
 import { CurrentSeasonSection } from "@/components/current-season-section";
 import { FinalCtaSection } from "@/components/final-cta-section";
 import {SiteHeader} from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export default function HomePage() {
     return (
@@ -19,6 +20,7 @@ export default function HomePage() {
             <DiscernmentSection />
             <CurrentSeasonSection />
             <FinalCtaSection />
+            <SiteFooter/>
         </main>
         </>
     );
