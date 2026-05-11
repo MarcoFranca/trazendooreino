@@ -1,24 +1,35 @@
-import { BookOpenCheck, Cross, Heart, Map, MoveDown } from "lucide-react";
+import {
+    BookOpen,
+    Crown,
+    Flame,
+    Heart,
+    ScrollText,
+    Sparkles,
+} from "lucide-react";
 
-const points = [
+const pillars = [
     {
-        title: "Leitura bíblica",
-        text: "Percorremos as Escrituras livro por livro, respeitando o texto, o contexto e a grande história da redenção.",
-        icon: BookOpenCheck,
+        title: "As Escrituras como caminho",
+        description:
+            "Não percorremos textos isolados. Seguimos a revelação progressiva do Reino através da história.",
+        icon: BookOpen,
     },
     {
-        title: "Cristo no centro",
-        text: "Não buscamos apenas informações antigas. Buscamos o testemunho que conduz ao Messias e confirma o Evangelho.",
-        icon: Cross,
+        title: "O Rei revelado",
+        description:
+            "Toda a narrativa converge para Cristo — não como símbolo religioso, mas como cumprimento, governo e redenção.",
+        icon: Crown,
     },
     {
-        title: "Reino como mensagem",
-        text: "A jornada revela o governo de Deus, a rebelião humana e a restauração prometida em Cristo.",
-        icon: Map,
+        title: "Uma única história",
+        description:
+            "Da criação à restauração, as Escrituras revelam um Reino, um conflito e um Rei.",
+        icon: ScrollText,
     },
     {
-        title: "Transformação como fruto",
-        text: "O estudo verdadeiro não termina em conhecimento, mas em arrependimento, fé, obediência e vida renovada.",
+        title: "Resposta, não acúmulo",
+        description:
+            "Conhecimento sem rendição produz orgulho. A verdade bíblica exige arrependimento, fé e obediência.",
         icon: Heart,
     },
 ];
@@ -27,94 +38,136 @@ export function JourneyIntroSection() {
     return (
         <section
             id="jornada"
-            className="relative overflow-hidden bg-[#030303] px-6 py-24 text-white md:py-28"
+            className="relative overflow-hidden bg-[#030303] px-6 py-24 text-white md:py-32"
         >
-            {/* transição suave vindo do hero */}
             <div
                 aria-hidden
-                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#030303] to-transparent"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.09),transparent_34%),radial-gradient(circle_at_50%_48%,rgba(214,181,109,0.035),transparent_46%)]"
             />
 
-            {/* aura central discreta */}
             <div
                 aria-hidden
-                className="absolute left-1/2 top-0 h-[420px] w-[620px] -translate-x-1/2 rounded-full bg-[#d6b56d]/[0.06] blur-[120px]"
+                className="absolute inset-0 opacity-[0.035] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]"
             />
 
-            {/* linha superior ritual */}
             <div
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b56d]/24 to-transparent"
             />
 
+            <div
+                aria-hidden
+                className="absolute left-1/2 top-0 h-[28rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#d6b56d]/8 blur-[140px]"
+            />
+
             <div className="relative mx-auto max-w-7xl">
-                <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center text-center">
-                    <div className="mb-7 flex size-11 items-center justify-center rounded-full border border-[#d6b56d]/20 bg-[#d6b56d]/10">
-                        <MoveDown className="size-4 text-[#d6b56d]" />
+                <div className="mx-auto max-w-3xl text-center">
+                    <div className="mx-auto mb-6 flex size-11 items-center justify-center rounded-full border border-[#d6b56d]/18 bg-[#d6b56d]/9 shadow-[0_0_34px_rgba(214,181,109,0.08)]">
+                        <Flame className="size-4.5 text-[#d6b56d]" />
                     </div>
 
                     <p className="sacred-inscription text-[10px] text-[#d6b56d]">
-                        O que é a jornada
+                        A jornada
                     </p>
 
-                    <h2 className="font-display mt-5 max-w-3xl text-4xl font-semibold leading-tight tracking-[-0.035em] text-white md:text-5xl">
-                        Uma caminhada pelas Escrituras, não apenas uma sequência de estudos.
+                    <h2 className="font-display mx-auto mt-5 max-w-3xl text-4xl font-semibold leading-tight tracking-[-0.04em] text-white md:text-5xl">
+                        Não começamos com informação.
+                        <span className="block bg-gradient-to-b from-[#fff7df] via-[#e9cf8c] to-[#a97935] bg-clip-text text-transparent">
+                            Começamos com reverência.
+                        </span>
                     </h2>
 
-                    <p className="mt-6 max-w-2xl text-base leading-8 text-white/58">
-                        A Jornada pelas Escrituras do Reino é um caminho de leitura bíblica,
-                        estudo e discipulado. Vamos percorrer a Bíblia livro por livro,
-                        buscando compreender como toda a história aponta para Cristo,
-                        revela o Reino de Deus, confronta o coração humano e nos chama a
-                        uma resposta de arrependimento, fé e obediência.
+                    <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/58">
+                        A Jornada pelas Escrituras do Reino não foi criada para produzir
+                        leitores religiosos. Foi criada para conduzir homens e mulheres
+                        através da narrativa da redenção até que Cristo deixe de ser apenas
+                        conhecido e passe a ser visto.
                     </p>
                 </div>
 
-                <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-                    {/* manifesto lateral */}
-                    <div className="rounded-[2rem] border border-[#d6b56d]/14 bg-white/[0.018] p-7 backdrop-blur-xl">
-                        <p className="font-scroll text-base leading-8 tracking-[0.04em] text-[#e8d7ad]">
-                            O objetivo não é apenas terminar livros da Bíblia.
-                        </p>
+                <div className="mt-16 grid gap-5 lg:grid-cols-[1.08fr_1.32fr]">
+                    <div className="sacred-card rounded-[1.9rem] p-1">
+                        <div className="relative h-full overflow-hidden rounded-[1.65rem] border border-white/8 bg-black/42 p-7 md:p-8">
+                            <div
+                                aria-hidden
+                                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.11),transparent_42%)]"
+                            />
 
-                        <div className="my-6 h-px w-full bg-gradient-to-r from-[#d6b56d]/35 to-transparent" />
+                            <div className="relative">
+                                <div className="mb-8 flex items-center justify-between gap-6">
+                                    <p className="sacred-inscription max-w-xs text-[10px] leading-5 text-[#d6b56d]">
+                                        O objetivo nunca foi terminar livros da Bíblia.
+                                    </p>
 
-                        <p className="text-sm leading-8 text-white/50">
-                            É ser conduzido pela Palavra até Cristo, ter a mente renovada, o
-                            coração confrontado e a vida reposicionada diante do Rei.
-                        </p>
+                                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#d6b56d]/20 bg-[#d6b56d]/10 shadow-[0_0_28px_rgba(214,181,109,0.12)]">
+                                        <Sparkles className="size-4.5 text-[#e8cc84]" />
+                                    </div>
+                                </div>
 
-                        <div className="mt-8 rounded-2xl border border-white/8 bg-black/24 p-5">
-                            <p className="text-sm leading-7 text-white/44">
-                                A jornada não começa com curiosidade. Começa com reverência.
-                                Não termina em informação. Termina em resposta.
-                            </p>
+                                <div className="h-px w-full bg-gradient-to-r from-[#d6b56d]/35 via-[#d6b56d]/12 to-transparent" />
+
+                                <h3 className="font-display mt-8 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em] text-white md:text-[2.45rem]">
+                                    A Palavra conduz.
+                                    <span className="block text-white/72">
+                                        Cristo confronta.
+                                    </span>
+                                    <span className="block text-[#e8d7ad]">
+                                        O Reino reposiciona.
+                                    </span>
+                                </h3>
+
+                                <p className="mt-7 max-w-xl text-base leading-8 text-white/58">
+                                    A Jornada existe para conduzir pessoas até Cristo com a
+                                    mente renovada, o coração confrontado e a vida reposicionada
+                                    diante do Rei.
+                                </p>
+
+                                <div className="mt-9 rounded-[1.45rem] border border-[#d6b56d]/14 bg-[#d6b56d]/[0.055] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                                    <p className="font-scroll text-[1.05rem] leading-8 tracking-[0.025em] text-[#ead8ad]/88">
+                                        As Escrituras não foram dadas apenas para serem
+                                        compreendidas. Foram dadas para revelar, confrontar e
+                                        transformar.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* pilares */}
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        {points.map(({ title, text, icon: Icon }) => (
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        {pillars.map(({ title, description, icon: Icon }) => (
                             <div
                                 key={title}
-                                className="group rounded-[1.75rem] border border-white/9 bg-white/[0.022] p-6 transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.035]"
+                                className="group relative min-h-[15rem] overflow-hidden rounded-[1.65rem] border border-[#d6b56d]/10 bg-white/[0.022] p-7 transition duration-500 hover:border-[#d6b56d]/24 hover:bg-[#d6b56d]/[0.04]"
                             >
-                                <div className="mb-7 flex size-10 items-center justify-center rounded-full border border-[#d6b56d]/18 bg-[#d6b56d]/9 transition group-hover:border-[#d6b56d]/32 group-hover:bg-[#d6b56d]/12">
-                                    <Icon className="size-4.5 text-[#d6b56d]" />
+                                <div
+                                    aria-hidden
+                                    className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(214,181,109,0.11),transparent_46%)] opacity-0 transition duration-500 group-hover:opacity-100"
+                                />
+
+                                <div
+                                    aria-hidden
+                                    className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b56d]/28 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"
+                                />
+
+                                <div className="relative">
+                                    <div className="mb-8 flex size-10 items-center justify-center rounded-full border border-[#d6b56d]/16 bg-[#d6b56d]/9 shadow-[0_0_26px_rgba(214,181,109,0.08)]">
+                                        <Icon className="size-4.5 text-[#d6b56d]" />
+                                    </div>
+
+                                    <h3 className="font-display text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] text-white">
+                                        {title}
+                                    </h3>
+
+                                    <p className="mt-4 text-sm leading-7 text-white/52">
+                                        {description}
+                                    </p>
                                 </div>
-
-                                <h3 className="font-display text-2xl font-semibold tracking-[-0.025em] text-white">
-                                    {title}
-                                </h3>
-
-                                <p className="mt-3 text-sm leading-7 text-white/50">{text}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
 
-            {/* fade para próxima seção */}
             <div
                 aria-hidden
                 className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent"
