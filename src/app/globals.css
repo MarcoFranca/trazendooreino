@@ -233,3 +233,77 @@ body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
+
+.pdf-sheet {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-break-before {
+  break-before: page;
+  page-break-before: always;
+}
+
+.pdf-keep-together {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body {
+    background: #f4ead4 !important;
+    color: #1f160d !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .site-chrome,
+  .print-hide {
+    display: none !important;
+  }
+
+  .pdf-shell {
+    background: #f4ead4 !important;
+    padding: 0 !important;
+    color: #1f160d !important;
+  }
+
+  .pdf-sheet {
+    width: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    border: 1px solid rgba(154, 123, 73, 0.25) !important;
+    background: linear-gradient(180deg, #fbf6ea, #f3e7d2) !important;
+    box-shadow: none !important;
+    color: #1f160d !important;
+  }
+
+  .pdf-sheet * {
+    color: inherit;
+  }
+
+  .pdf-sheet .text-white,
+  .pdf-sheet .text-white\/64,
+  .pdf-sheet .text-white\/66,
+  .pdf-sheet .text-white\/68,
+  .pdf-sheet .text-white\/60,
+  .pdf-sheet .text-white\/58,
+  .pdf-sheet .text-white\/56,
+  .pdf-sheet .text-white\/34 {
+    color: #2d2218 !important;
+  }
+
+  .pdf-sheet .text-\[\#ead8ad\],
+  .pdf-sheet .text-\[\#d6b56d\] {
+    color: #8f6c36 !important;
+  }
+}

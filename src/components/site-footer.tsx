@@ -10,7 +10,7 @@ const links = [
 
 export function SiteFooter() {
     return (
-        <footer className="relative overflow-hidden bg-[#030303] px-6 py-16 text-white">
+        <footer className="site-chrome relative overflow-hidden bg-[#030303] px-6 py-16 text-white">
             <div
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b56d]/24 to-transparent"

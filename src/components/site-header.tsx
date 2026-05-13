@@ -10,7 +10,7 @@ export async function SiteHeader() {
     const { user } = await getViewer();
 
     return (
-        <header className="sticky top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
+        <header className="site-chrome sticky top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
             <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
                 <Link href="/" className="flex items-center gap-3">
                     <div className="flex size-11 items-center justify-center rounded-full border border-primary/30 bg-primary/10 shadow-[0_0_28px_rgba(214,181,109,0.12)]">
