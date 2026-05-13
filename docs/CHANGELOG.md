@@ -19,3 +19,4 @@
 - Criacao de componentes reutilizaveis para PDFs editoriais
 - Adicao de estilos globais de impressao para A4, ocultacao de chrome do site e controle de page break
 - Atualizacao da documentacao para o padrao de semanas publicas e PDFs futuros
+- Expansao da Semana 00 para carregar o estudo integral do material-base, incluindo metodo semanal, leituras complementares, mapa completo da temporada, exercicios, reflexoes e oracao final

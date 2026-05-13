@@ -29,24 +29,29 @@ Cada semana carrega:
 ## Semana 00 publica
 
 - Rota: `/genesis/00`
-- Funcao: estabelecer a lente de leitura da temporada
+- Funcao: estabelecer a lente de leitura da temporada como estudo completo
+- Fonte editorial: conteudo integral da Semana 00, estruturado em `src/lib/genesis-week-00.ts`
 - Estrutura atual:
   - hero editorial
   - tese central
   - leituras principais e de apoio
+  - preparacao para ler Genesis
   - Cristo como chave da leitura
   - Escritura como regra
   - Evangelho como protecao
   - Reino como mensagem
   - graca, arrependimento e transformacao
+  - metodo semanal da jornada
+  - uso de leituras complementares
   - filtros da jornada
+  - primeira temporada e mapa completo
   - exercicios, reflexoes e oracao
   - CTA para a Semana 01
 
 ## PDF imprimivel
 
 - Rota: `/genesis/00/pdf`
-- Funcao: oferecer um artefato editorial para impressao ou salvamento como PDF pelo navegador
+- Funcao: oferecer o mesmo estudo completo em formato de artefato editorial para impressao ou salvamento como PDF pelo navegador
 - Fluxo atual:
   - abrir a pagina
   - clicar em `Baixar em PDF`

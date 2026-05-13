@@ -59,10 +59,10 @@ export default function GenesisWeek00Page() {
                             <div className="mt-10 flex flex-wrap gap-3">
                                 {genesisWeek00.readings.map((reading) => (
                                     <span
-                                        key={reading}
+                                        key={reading.reference}
                                         className="rounded-full border border-[#d6b56d]/14 bg-black/28 px-4 py-2 text-sm text-white/58"
                                     >
-                                        {reading}
+                                        {reading.reference}
                                     </span>
                                 ))}
                             </div>
@@ -129,6 +129,11 @@ export default function GenesisWeek00Page() {
                                             {item}
                                         </p>
                                     ))}
+                                    {genesisWeek00.objectiveClosing.map((item) => (
+                                        <p key={item} className="text-sm leading-7 text-[#ead8ad]/72">
+                                            {item}
+                                        </p>
+                                    ))}
                                 </div>
                             </div>
 
@@ -140,10 +145,11 @@ export default function GenesisWeek00Page() {
                                 <div className="mt-5 grid gap-3">
                                     {genesisWeek00.readings.map((item) => (
                                         <div
-                                            key={item}
+                                            key={item.reference}
                                             className="rounded-2xl border border-[#d6b56d]/10 bg-black/24 px-4 py-3 text-sm text-white/60"
                                         >
-                                            {item}
+                                            <p className="text-[#e8cc84]">{item.reference}</p>
+                                            <p className="mt-2 leading-7 text-white/54">{item.description}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -160,16 +166,70 @@ export default function GenesisWeek00Page() {
                                 </p>
                                 <div className="mt-5 flex flex-wrap gap-3">
                                     {genesisWeek00.supportReadings.map((item) => (
-                                        <span
-                                            key={item}
-                                            className="rounded-full border border-[#d6b56d]/14 bg-[#d6b56d]/[0.05] px-4 py-2 text-sm text-white/58"
+                                        <div
+                                            key={item.reference}
+                                            className="rounded-[1.15rem] border border-[#d6b56d]/12 bg-[#d6b56d]/[0.04] p-4"
                                         >
-                                            {item}
-                                        </span>
+                                            <p className="text-sm text-[#e8cc84]">{item.reference}</p>
+                                            <p className="mt-2 text-sm leading-7 text-white/56">
+                                                {item.description}
+                                            </p>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <section className="px-6 py-24 md:py-28">
+                    <div className="mx-auto max-w-7xl space-y-6">
+                        {genesisWeek00.studyBlocks.map((block) => (
+                            <div
+                                key={block.title}
+                                className="rounded-[2rem] border border-[#d6b56d]/12 bg-black/34 p-7 md:p-10"
+                            >
+                                <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                    Preparacao
+                                </p>
+                                <h2 className="font-display mt-5 text-4xl leading-tight tracking-[-0.04em] text-white md:text-5xl">
+                                    {block.title}
+                                </h2>
+                                <div className="mt-7 space-y-5">
+                                    {block.body.map((paragraph) => (
+                                        <p key={paragraph} className="text-base leading-8 text-white/62">
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                                {block.bullets ? (
+                                    <div className="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                                        {block.bullets.map((item) => (
+                                            <div
+                                                key={item}
+                                                className="rounded-[1.25rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4 text-sm leading-7 text-white/58"
+                                            >
+                                                {item}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : null}
+                                {block.questions ? (
+                                    <div className="mt-8 rounded-[1.5rem] border border-[#d6b56d]/12 bg-black/24 p-5">
+                                        <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                            Perguntas que guiam Genesis
+                                        </p>
+                                        <div className="mt-4 grid gap-3 md:grid-cols-2">
+                                            {block.questions.map((question) => (
+                                                <p key={question} className="text-sm leading-7 text-white/58">
+                                                    {question}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : null}
+                            </div>
+                        ))}
                     </div>
                 </section>
 
@@ -258,14 +318,17 @@ export default function GenesisWeek00Page() {
                             <div className="mt-7 grid gap-3">
                                 {genesisWeek00.filters.map((item, index) => (
                                     <div
-                                        key={item}
+                                        key={item.question}
                                         className="rounded-[1.35rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4"
                                     >
-                                        <p className="text-sm leading-7 text-white/58">
+                                        <p className="text-sm leading-7 text-white/72">
                                             <span className="mr-2 text-[#e8cc84]">
                                                 {String(index + 1).padStart(2, "0")}
                                             </span>
-                                            {item}
+                                            {item.question}
+                                        </p>
+                                        <p className="mt-2 text-sm leading-7 text-white/50">
+                                            {item.detail}
                                         </p>
                                     </div>
                                 ))}
@@ -298,6 +361,171 @@ export default function GenesisWeek00Page() {
                                     ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="px-6 py-24 md:py-28">
+                    <div className="mx-auto max-w-7xl space-y-6">
+                        <div>
+                            <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                Como leremos cada semana
+                            </p>
+                            <h2 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.04em] text-white md:text-5xl">
+                                Uma estrutura simples para ouvir a Palavra antes de falar sobre ela.
+                            </h2>
+                        </div>
+
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            {genesisWeek00.weeklyStructure.map((item, index) => (
+                                <div
+                                    key={item.title}
+                                    className="rounded-[1.65rem] border border-[#d6b56d]/12 bg-black/30 p-6"
+                                >
+                                    <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </p>
+                                    <h3 className="font-display mt-4 text-2xl text-white">
+                                        {item.title}
+                                    </h3>
+                                    <div className="mt-4 space-y-3">
+                                        {item.body.map((paragraph) => (
+                                            <p key={paragraph} className="text-sm leading-7 text-white/56">
+                                                {paragraph}
+                                            </p>
+                                        ))}
+                                    </div>
+                                    {item.bullets ? (
+                                        <div className="mt-5 flex flex-wrap gap-2">
+                                            {item.bullets.map((bullet) => (
+                                                <span
+                                                    key={bullet}
+                                                    className="rounded-full border border-[#d6b56d]/12 bg-[#d6b56d]/[0.04] px-3 py-1.5 text-xs text-white/52"
+                                                >
+                                                    {bullet}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="px-6 py-24 md:py-28">
+                    <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+                        <div className="rounded-[1.9rem] border border-[#d6b56d]/12 bg-black/30 p-7 md:p-8">
+                            <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                Leituras complementares
+                            </p>
+                            <div className="mt-6 space-y-4">
+                                {genesisWeek00.complementaryReadings.intro.map((paragraph) => (
+                                    <p key={paragraph} className="text-sm leading-8 text-white/58">
+                                        {paragraph}
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4 md:grid-cols-3">
+                            <div className="rounded-[1.5rem] border border-[#d6b56d]/12 bg-black/28 p-5">
+                                <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                    Podem incluir
+                                </p>
+                                <div className="mt-4 space-y-2">
+                                    {genesisWeek00.complementaryReadings.mayInclude.map((item) => (
+                                        <p key={item} className="text-sm leading-6 text-white/54">
+                                            {item}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="rounded-[1.5rem] border border-[#d6b56d]/12 bg-black/28 p-5">
+                                <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                    Podem iluminar
+                                </p>
+                                <div className="mt-4 space-y-2">
+                                    {genesisWeek00.complementaryReadings.mayIlluminate.map((item) => (
+                                        <p key={item} className="text-sm leading-6 text-white/54">
+                                            {item}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="rounded-[1.5rem] border border-[#d6b56d]/12 bg-black/28 p-5">
+                                <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                    Recusadas quando
+                                </p>
+                                <div className="mt-4 space-y-2">
+                                    {genesisWeek00.complementaryReadings.rejectedWhen.map((item) => (
+                                        <p key={item} className="text-sm leading-6 text-white/54">
+                                            {item}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="px-6 py-24 md:py-28">
+                    <div className="mx-auto max-w-7xl">
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            A primeira temporada
+                        </p>
+                        <h2 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.04em] text-white md:text-5xl">
+                            {genesisWeek00.firstSeason.title}
+                        </h2>
+                        <div className="mt-7 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+                            <div className="rounded-[1.7rem] border border-[#d6b56d]/12 bg-black/30 p-6">
+                                <div className="space-y-4">
+                                    {genesisWeek00.firstSeason.intro.map((paragraph) => (
+                                        <p key={paragraph} className="text-sm leading-8 text-white/58">
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="grid gap-3 md:grid-cols-2">
+                                {genesisWeek00.firstSeason.foundations.map((item) => (
+                                    <div
+                                        key={item}
+                                        className="rounded-[1.25rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4 text-sm leading-7 text-white/58"
+                                    >
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="px-6 py-24 md:py-28">
+                    <div className="mx-auto max-w-7xl">
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Mapa resumido da Temporada 1
+                        </p>
+                        <div className="mt-8 grid gap-4 md:grid-cols-2">
+                            {genesisWeek00.seasonMap.map((item) => (
+                                <div
+                                    key={item.week}
+                                    className="rounded-[1.5rem] border border-[#d6b56d]/12 bg-black/30 p-5"
+                                >
+                                    <p className="sacred-inscription text-[9px] text-[#d6b56d]">
+                                        Semana {item.week}
+                                    </p>
+                                    <h3 className="font-display mt-3 text-2xl text-white">
+                                        {item.title}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-7 text-white/56">
+                                        {item.theme}
+                                    </p>
+                                    <p className="mt-4 text-xs uppercase tracking-[0.16em] text-white/34">
+                                        {item.reading}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
