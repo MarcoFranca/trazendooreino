@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
     ArrowRight,
     CalendarDays,
@@ -38,41 +39,25 @@ export function CurrentSeasonSection() {
             id="genesis"
             className="relative overflow-hidden bg-[#030303] px-6 py-24 text-white md:py-32"
         >
-            {/* imagem de fundo */}
             <div
                 aria-hidden
-                className="absolute inset-0 bg-cover bg-center "
+                className="absolute inset-0 bg-cover bg-center"
                 style={{
                     backgroundImage: "url('/images/eden-season.png')",
                     backgroundPosition: "center center",
                 }}
             />
 
-            {/* camada escura */}
-            {/*<div*/}
-            {/*    aria-hidden*/}
-            {/*    className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.82)_0%,rgba(3,3,3,0.68)_36%,rgba(3,3,3,0.84)_78%,#030303_100%)]"*/}
-            {/*/>*/}
-
-            {/* glow */}
             <div
                 aria-hidden
                 className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(214,181,109,0.16),transparent_34%),radial-gradient(circle_at_50%_68%,rgba(214,181,109,0.05),transparent_46%)]"
             />
 
-            {/* vinheta */}
             <div
                 aria-hidden
                 className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_18%,rgba(0,0,0,0.58)_82%,rgba(0,0,0,0.9)_100%)]"
             />
 
-            {/*/!* textura *!/*/}
-            {/*<div*/}
-            {/*    aria-hidden*/}
-            {/*    className="absolute inset-0 opacity-[0.032] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]"*/}
-            {/*/>*/}
-
-            {/* linha superior */}
             <div
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b56d]/24 to-transparent"
@@ -116,9 +101,11 @@ export function CurrentSeasonSection() {
                                     </p>
                                 </div>
 
-                                <Button className="cta-shimmer mt-10 h-14 rounded-full bg-[#d6b56d] px-8 text-sm font-semibold text-black shadow-[0_0_38px_rgba(214,181,109,0.2)] hover:bg-[#e7c979]">
-                                    Entrar na temporada
-                                    <ArrowRight className="size-5" />
+                                <Button asChild className="cta-shimmer mt-10 h-14 rounded-full bg-[#d6b56d] px-8 text-sm font-semibold text-black shadow-[0_0_38px_rgba(214,181,109,0.2)] hover:bg-[#e7c979]">
+                                    <Link href="/genesis">
+                                        Entrar na temporada
+                                        <ArrowRight className="size-5" />
+                                    </Link>
                                 </Button>
                             </div>
 

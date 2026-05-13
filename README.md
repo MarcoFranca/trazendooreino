@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trazendo o Reino
 
-## Getting Started
+Plataforma editorial de jornadas bíblicas com Next.js App Router, TypeScript, TailwindCSS, shadcn/ui e Supabase.
 
-First, run the development server:
+## Visão rápida
+
+- Landing page pública premium/editorial
+- Área autenticada para jornadas e semanas
+- Área administrativa para jornadas, semanas e colaboradores
+- Supabase com migrations versionadas via CLI
+
+## Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+corepack pnpm@10 install
+corepack pnpm@10 dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## `.env.local`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://qtgayxaidwycwlpkjcam.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_xxxxx
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_xxxxx
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Comandos
 
-## Learn More
+```bash
+pnpm dev
+pnpm lint
+pnpm build
+pnpm supabase:login
+pnpm supabase:link
+pnpm supabase:push
+pnpm supabase:pull
+pnpm supabase:reset
+pnpm supabase:types
+pnpm supabase:status
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Supabase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Config CLI: `supabase/config.toml`
+- Migration inicial: `supabase/migrations/20260513013220_initial_platform.sql`
+- Seed oficial: `supabase/seed.sql`
+- Healthcheck local: `/api/health/supabase`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Workflow de migrations
 
-## Deploy on Vercel
+1. Faça login na CLI
+2. Linke o projeto remoto
+3. Rode `pnpm supabase:push`
+4. Gere types com `pnpm supabase:types`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Seed
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- O seed oficial mantém a jornada `genesis`
+- Cria as semanas `00` e `01`
+- Define a semana `01` como atual
+
+## Healthcheck
+
+Em `development`, teste:
+
+- [http://localhost:3000/api/health/supabase](http://localhost:3000/api/health/supabase)
+
+## Documentação
+
+- [Project Overview](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\PROJECT_OVERVIEW.md)
+- [Architecture](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\ARCHITECTURE.md)
+- [Routes](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\ROUTES.md)
+- [Database](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\DATABASE.md)
+- [Supabase Workflow](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\SUPABASE_WORKFLOW.md)
+- [Auth And Roles](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\AUTH_AND_ROLES.md)
+- [Admin](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\ADMIN.md)
+- [Journeys](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\JOURNEYS.md)
+- [Collaborators](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\COLLABORATORS.md)
+- [Design System](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\DESIGN_SYSTEM.md)
+- [Changelog](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\CHANGELOG.md)

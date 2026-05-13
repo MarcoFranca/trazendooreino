@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, Flame } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -5,25 +6,21 @@ import { Button } from "@/components/ui/button";
 export function FinalCtaSection() {
     return (
         <section className="relative overflow-hidden bg-[#030303] px-6 py-28 text-white md:py-36">
-            {/* glow central */}
             <div
                 aria-hidden
                 className="absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d6b56d]/10 blur-[140px]"
             />
 
-            {/* aura */}
             <div
                 aria-hidden
                 className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(214,181,109,0.14),transparent_34%)]"
             />
 
-            {/* textura */}
             <div
                 aria-hidden
                 className="absolute inset-0 opacity-[0.03] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]"
             />
 
-            {/* fade topo */}
             <div
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent"
@@ -53,16 +50,18 @@ export function FinalCtaSection() {
                         </h2>
 
                         <p className="mx-auto mt-7 max-w-3xl text-base leading-8 text-white/58 md:text-lg">
-                            Entre na jornada, caminhe pelas Escrituras, acompanhe
-                            cada temporada e descubra Cristo ao longo da grande
-                            narrativa da redenção.
+                            Entre na jornada, caminhe pelas Escrituras, acompanhe cada
+                            temporada e descubra Cristo ao longo da grande narrativa da
+                            redenção.
                         </p>
 
                         <div className="mx-auto mt-10 h-px w-32 bg-gradient-to-r from-transparent via-[#d6b56d]/42 to-transparent" />
 
-                        <Button className="cta-shimmer mt-10 h-14 rounded-full bg-[#d6b56d] px-8 text-sm font-semibold text-black shadow-[0_0_40px_rgba(214,181,109,0.2)] hover:bg-[#e7c979]">
-                            Começar a jornada
-                            <ArrowRight className="size-5" />
+                        <Button asChild className="cta-shimmer mt-10 h-14 rounded-full bg-[#d6b56d] px-8 text-sm font-semibold text-black shadow-[0_0_40px_rgba(214,181,109,0.2)] hover:bg-[#e7c979]">
+                            <Link href="/cadastro">
+                                Começar a jornada
+                                <ArrowRight className="size-5" />
+                            </Link>
                         </Button>
 
                         <p className="mt-8 text-sm tracking-[0.03em] text-white/34">

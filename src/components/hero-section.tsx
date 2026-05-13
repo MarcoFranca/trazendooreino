@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, BookOpen, Crown, Flame, Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -68,10 +69,10 @@ export function HeroSection() {
                     reduceMotion
                         ? { opacity: 0.48, scale: 1.06 }
                         : {
-                            opacity: [0.6, 0.9, 0.6],
-                            scale: [1.06, 1.1, 1.06],
-                            y: [0, 10, 0],
-                        }
+                              opacity: [0.6, 0.9, 0.6],
+                              scale: [1.06, 1.1, 1.06],
+                              y: [0, 10, 0],
+                          }
                 }
                 transition={{
                     duration: 38,
@@ -91,7 +92,7 @@ export function HeroSection() {
 
             <div
                 aria-hidden
-                className="absolute inset-0 -z-30 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.10)_0%, rgba(3,3,3,0.20)_28%, rgba(3,3,3,0.30)_44%,rgba(3,3,3,0.97)_100%)]"
+                className="absolute inset-0 -z-30 bg-[linear-gradient(to_bottom,rgba(3,3,3,0.10)_0%,rgba(3,3,3,0.20)_28%,rgba(3,3,3,0.30)_44%,rgba(3,3,3,0.97)_100%)]"
             />
 
             <div
@@ -105,9 +106,9 @@ export function HeroSection() {
                     reduceMotion
                         ? { opacity: 0.14 }
                         : {
-                            opacity: [0.08, 0.17, 0.1],
-                            scaleX: [0.94, 1.05, 0.94],
-                        }
+                              opacity: [0.08, 0.17, 0.1],
+                              scaleX: [0.94, 1.05, 0.94],
+                          }
                 }
                 transition={{
                     duration: 10,
@@ -122,7 +123,6 @@ export function HeroSection() {
                 className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.72)_88%,rgba(0,0,0,0.96)_100%)]"
             />
 
-            {/*<div aria-hidden className="sacred-grid absolute inset-0 -z-10 opacity-60" />*/}
             <div aria-hidden className="noise-layer absolute inset-0 -z-10" />
 
             {sacredDust.map((particle, index) => (
@@ -141,10 +141,10 @@ export function HeroSection() {
                         reduceMotion
                             ? { opacity: 0.26 }
                             : {
-                                y: [0, -26, 0],
-                                opacity: [0.06, 0.54, 0.06],
-                                scale: [0.8, 1.22, 0.8],
-                            }
+                                  y: [0, -26, 0],
+                                  opacity: [0.06, 0.54, 0.06],
+                                  scale: [0.8, 1.22, 0.8],
+                              }
                     }
                     transition={{
                         duration: particle.duration,
@@ -159,19 +159,18 @@ export function HeroSection() {
                 <motion.div
                     initial="hidden"
                     animate="visible"
-                    transition={{staggerChildren: 0.12}}
+                    transition={{ staggerChildren: 0.12 }}
                     className="max-w-3xl"
                 >
-                    <motion.div variants={fadeUp} transition={{duration: 0.75}}>
-                        <Badge
-                            className="mb-6 rounded-full border-[#d6b56d]/25 bg-[#d6b56d]/10 px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#e8cc84] shadow-[0_0_28px_rgba(214,181,109,0.1)] hover:bg-[#d6b56d]/10">
+                    <motion.div variants={fadeUp} transition={{ duration: 0.75 }}>
+                        <Badge className="mb-6 rounded-full border-[#d6b56d]/25 bg-[#d6b56d]/10 px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#e8cc84] shadow-[0_0_28px_rgba(214,181,109,0.1)] hover:bg-[#d6b56d]/10">
                             Temporada 1 · Gênesis: Do Éden à Promessa
                         </Badge>
                     </motion.div>
 
                     <motion.p
                         variants={fadeUp}
-                        transition={{duration: 0.75}}
+                        transition={{ duration: 0.75 }}
                         className="mb-4 max-w-xl text-xs uppercase tracking-[0.32em] text-white/38"
                     >
                         Uma jornada pelas Escrituras
@@ -179,19 +178,18 @@ export function HeroSection() {
 
                     <motion.h1
                         variants={fadeUp}
-                        transition={{duration: 0.9, ease: "easeOut"}}
+                        transition={{ duration: 0.9, ease: "easeOut" }}
                         className="font-display scroll-texture max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.028em] text-white md:text-6xl lg:text-[4.35rem]"
                     >
                         Atravesse a história.
-                        <span
-                            className="block bg-gradient-to-b from-[#fff7df] via-[#e9cf8c] to-[#a97935] bg-clip-text pb-[0.08em] text-transparent">
-    Contemple o Rei.
-  </span>
+                        <span className="block bg-gradient-to-b from-[#fff7df] via-[#e9cf8c] to-[#a97935] bg-clip-text pb-[0.08em] text-transparent">
+                            Contemple o Rei.
+                        </span>
                     </motion.h1>
 
                     <motion.p
                         variants={fadeUp}
-                        transition={{duration: 0.85, ease: "easeOut"}}
+                        transition={{ duration: 0.85, ease: "easeOut" }}
                         className="mt-6 max-w-xl text-base leading-8 text-white/60 md:text-[1rem]"
                     >
                         Uma jornada bíblica, livro por livro, para enxergar Cristo em toda
@@ -201,29 +199,33 @@ export function HeroSection() {
 
                     <motion.div
                         variants={fadeUp}
-                        transition={{duration: 0.85, ease: "easeOut"}}
+                        transition={{ duration: 0.85, ease: "easeOut" }}
                         className="mt-8 flex flex-col gap-3 sm:flex-row"
                     >
                         <Button
+                            asChild
                             size="lg"
                             className="cta-shimmer h-[50px] rounded-full bg-[#d6b56d] px-7 text-sm font-semibold text-black shadow-[0_0_38px_rgba(214,181,109,0.22)] transition hover:bg-[#e7c979]"
                         >
-                            Entrar na Jornada
-                            <ArrowRight className="size-4"/>
+                            <Link href="/cadastro">
+                                Entrar na Jornada
+                                <ArrowRight className="size-4" />
+                            </Link>
                         </Button>
 
                         <Button
+                            asChild
                             size="lg"
                             variant="outline"
                             className="h-[50px] rounded-full border-white/12 bg-white/[0.035] px-7 text-sm text-white backdrop-blur-xl hover:bg-white/[0.075] hover:text-white"
                         >
-                            Ver a temporada atual
+                            <Link href="/genesis">Ver a temporada atual</Link>
                         </Button>
                     </motion.div>
 
                     <motion.div
                         variants={fadeUp}
-                        transition={{duration: 0.85, ease: "easeOut"}}
+                        transition={{ duration: 0.85, ease: "easeOut" }}
                         className="mt-9 flex max-w-xl flex-col gap-2.5 border-l border-[#d6b56d]/24 pl-4"
                     >
                         <p className="font-scroll text-sm leading-7 tracking-[0.05em] text-[#e8d7ad]">
@@ -238,9 +240,9 @@ export function HeroSection() {
                 </motion.div>
 
                 <motion.div
-                    initial={{opacity: 0, x: 36, scale: 0.97, filter: "blur(10px)"}}
-                    animate={{opacity: 1, x: 0, scale: 1, filter: "blur(0px)"}}
-                    transition={{duration: 1, ease: "easeOut", delay: 0.22}}
+                    initial={{ opacity: 0, x: 36, scale: 0.97, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 1, ease: "easeOut", delay: 0.22 }}
                     className="relative hidden lg:block"
                 >
                     <motion.div
@@ -249,9 +251,9 @@ export function HeroSection() {
                             reduceMotion
                                 ? { opacity: 0.24 }
                                 : {
-                                    opacity: [0.12, 0.28, 0.12],
-                                    scale: [0.98, 1.05, 0.98],
-                                }
+                                      opacity: [0.12, 0.28, 0.12],
+                                      scale: [0.98, 1.05, 0.98],
+                                  }
                         }
                         transition={{
                             duration: 8,
@@ -279,9 +281,9 @@ export function HeroSection() {
                                         reduceMotion
                                             ? { y: 0 }
                                             : {
-                                                y: [0, -5, 0],
-                                                rotate: [0, 1.5, 0],
-                                            }
+                                                  y: [0, -5, 0],
+                                                  rotate: [0, 1.5, 0],
+                                              }
                                     }
                                     transition={{
                                         duration: 5.5,

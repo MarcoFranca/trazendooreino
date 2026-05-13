@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { ArrowUpRight, Crown } from "lucide-react";
 
 const links = [
-    { label: "Jornada", href: "#jornada" },
-    { label: "Como funciona", href: "#como-funciona" },
-    { label: "Mapa bíblico", href: "#mapa" },
-    { label: "Temporada atual", href: "#genesis" },
+    { label: "Jornadas", href: "/app/jornadas" },
+    { label: "Gênesis", href: "/genesis" },
+    { label: "Colaborar", href: "/colaborar" },
+    { label: "Entrar", href: "/login" },
 ];
 
 export function SiteFooter() {
@@ -51,14 +52,14 @@ export function SiteFooter() {
 
                     <nav className="flex flex-col gap-3 md:items-end">
                         {links.map((link) => (
-                            <a
+                            <Link
                                 key={link.href}
                                 href={link.href}
                                 className="group inline-flex items-center gap-2 text-sm text-white/48 transition hover:text-[#e8cc84]"
                             >
                                 {link.label}
                                 <ArrowUpRight className="size-3.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-                            </a>
+                            </Link>
                         ))}
                     </nav>
                 </div>

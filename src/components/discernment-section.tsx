@@ -4,7 +4,6 @@ import {
     Flame,
     Gem,
     GitBranch,
-    ScrollText,
     ShieldCheck,
 } from "lucide-react";
 
