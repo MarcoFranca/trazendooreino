@@ -56,6 +56,18 @@ export default async function JourneyDetailPage({
                         />
                     ))}
                 </div>
+
+                {!weeks.length ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Aguardando liberacao
+                        </p>
+                        <p className="mt-4 text-sm leading-8 text-white/58">
+                            Esta jornada ja existe, mas ainda nao possui semanas publicadas ou
+                            liberadas para a area autenticada.
+                        </p>
+                    </SacredCard>
+                ) : null}
             </section>
         </PageShell>
     );

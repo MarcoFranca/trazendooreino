@@ -2,9 +2,12 @@
 
 ## 2026-05-12
 
-- Criação da base da plataforma com Supabase Auth, Database e áreas autenticada/admin.
-- Ajuste da integração para o novo modelo de Publishable key e Secret key do Supabase.
-- Criação do endpoint de healthcheck `/api/health/supabase`.
-- Adoção do workflow oficial com Supabase CLI e migrations versionadas.
-- Criação da pasta `docs/` como documentação viva do projeto.
-- Atualização de `README.md` e `AGENTS.md` para refletir o novo processo estrutural.
+- Criacao da base da plataforma com Supabase Auth, Database e areas autenticada/admin
+- Ajuste da integracao para o novo modelo de Publishable key e Secret key do Supabase
+- Criacao do endpoint de healthcheck `/api/health/supabase`
+- Adocao do workflow oficial com Supabase CLI e migrations versionadas
+- Criacao da pasta `docs/` como documentacao viva do projeto
+- Atualizacao de `README.md` e `AGENTS.md` para refletir o novo processo estrutural
+- Nova migration para corrigir `handle_new_user()`, recriar o trigger `on_auth_user_created` e diagnosticar profiles faltantes
+- Criacao de `scripts/backfill-profiles.sql` para reconciliar usuarios antigos de `auth.users` com `public.profiles`
+- Endurecimento dos helpers de auth e das paginas server-side para evitar erro bruto quando profile, journeys ou weeks estiverem ausentes

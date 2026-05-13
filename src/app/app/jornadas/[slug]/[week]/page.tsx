@@ -62,7 +62,7 @@ export default async function AuthenticatedWeekPage({
                                     Leitura principal
                                 </p>
                                 <p className="mt-3 text-base leading-8 text-white/70">
-                                    {currentWeek.reading}
+                                    {currentWeek.reading ?? "Leitura ainda nao informada."}
                                 </p>
                             </div>
 
@@ -72,7 +72,8 @@ export default async function AuthenticatedWeekPage({
                                         Foco em Cristo
                                     </p>
                                     <p className="mt-2 text-sm leading-7 text-white/62">
-                                        {currentWeek.christ_focus}
+                                        {currentWeek.christ_focus ??
+                                            "O foco em Cristo sera adicionado pela equipe editorial."}
                                     </p>
                                 </div>
 
@@ -81,7 +82,8 @@ export default async function AuthenticatedWeekPage({
                                         Foco no Reino
                                     </p>
                                     <p className="mt-2 text-sm leading-7 text-white/62">
-                                        {currentWeek.kingdom_focus}
+                                        {currentWeek.kingdom_focus ??
+                                            "O foco no Reino sera adicionado pela equipe editorial."}
                                     </p>
                                 </div>
                             </div>
@@ -91,7 +93,9 @@ export default async function AuthenticatedWeekPage({
                                     Webinar
                                 </p>
                                 <p className="mt-2 text-sm leading-7 text-white/60">
-                                    {formatDateTime(currentWeek.webinar_date)}
+                                    {currentWeek.webinar_date
+                                        ? formatDateTime(currentWeek.webinar_date)
+                                        : "Data ainda nao definida."}
                                 </p>
                             </div>
                         </div>
@@ -113,7 +117,11 @@ export default async function AuthenticatedWeekPage({
                         <ResourceCard
                             icon={CalendarDays}
                             title="Data de liberação"
-                            text={formatDateTime(currentWeek.release_at)}
+                            text={
+                                currentWeek.release_at
+                                    ? formatDateTime(currentWeek.release_at)
+                                    : "Liberacao ainda nao definida."
+                            }
                         />
                     </div>
                 </div>

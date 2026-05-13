@@ -2,7 +2,8 @@
 
 import { redirect } from "next/navigation";
 
-import { createSupabaseAdminClient, createSupabaseServerClient } from "@/lib/supabase/server";
+import { ensureProfileForUser } from "@/lib/auth";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function buildRedirect(path: string, key: "error" | "success", message: string) {
     const params = new URLSearchParams({ [key]: message });
@@ -38,7 +39,6 @@ export async function signupAction(formData: FormData) {
     }
 
     const supabase = await createSupabaseServerClient();
-    const admin = createSupabaseAdminClient();
 
     const { data, error } = await supabase.auth.signUp({
         email,
@@ -54,15 +54,18 @@ export async function signupAction(formData: FormData) {
         redirect(buildRedirect("/cadastro", "error", error.message));
     }
 
-    if (data.user?.id) {
-        await admin.from("profiles").upsert({
-            id: data.user.id,
-            name,
-            email,
-        });
+    if (data.session && data.user) {
+        await ensureProfileForUser(data.user);
+        redirect("/app");
     }
 
-    redirect("/app");
+    redirect(
+        buildRedirect(
+            "/login",
+            "success",
+            "Cadastro recebido. Confirme seu email para liberar a entrada, se essa etapa estiver ativa no Supabase."
+        )
+    );
 }
 
 export async function logoutAction() {

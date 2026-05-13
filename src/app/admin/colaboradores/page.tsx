@@ -138,6 +138,18 @@ export default async function AdminCollaboratorsPage({
                         </SacredCard>
                     ))}
                 </div>
+
+                {!applications.length ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Nenhuma aplicacao recebida
+                        </p>
+                        <p className="mt-4 text-sm leading-8 text-white/58">
+                            Esta area permanece silenciosa ate que novas candidaturas sejam
+                            enviadas pela pagina de colaboradores.
+                        </p>
+                    </SacredCard>
+                ) : null}
             </section>
         </PageShell>
     );

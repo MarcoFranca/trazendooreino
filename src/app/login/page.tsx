@@ -14,6 +14,7 @@ type LoginPageProps = {
 export default async function LoginPage({ searchParams }: LoginPageProps) {
     const params = await searchParams;
     const error = typeof params.error === "string" ? params.error : null;
+    const success = typeof params.success === "string" ? params.success : null;
     const next = typeof params.next === "string" ? params.next : "/app";
 
     return (
@@ -60,6 +61,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                     {error ? (
                         <div className="rounded-2xl border border-amber-500/20 bg-amber-500/8 px-4 py-3 text-sm text-[#ead8ad]">
                             {error}
+                        </div>
+                    ) : null}
+
+                    {success ? (
+                        <div className="rounded-2xl border border-emerald-500/18 bg-emerald-500/8 px-4 py-3 text-sm text-[#d7f7de]">
+                            {success}
                         </div>
                     ) : null}
 

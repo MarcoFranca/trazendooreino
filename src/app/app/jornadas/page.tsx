@@ -48,6 +48,18 @@ export default async function JourneysPage() {
                         </Link>
                     ))}
                 </div>
+
+                {!journeys.length ? (
+                    <div className="rounded-[1.9rem] border border-[#d6b56d]/12 bg-black/30 p-8">
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Biblioteca em preparo
+                        </p>
+                        <p className="mt-5 max-w-2xl text-sm leading-8 text-white/58">
+                            Ainda nao ha jornadas publicadas nesta area. Quando o acervo for
+                            liberado, ele aparecera aqui com o mesmo ritmo editorial da casa.
+                        </p>
+                    </div>
+                ) : null}
             </section>
         </PageShell>
     );

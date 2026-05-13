@@ -52,6 +52,7 @@ export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) 
                                 name="journey_id"
                                 required
                                 className="sacred-input h-11 w-full rounded-xl px-4"
+                                disabled={!journeys.length}
                             >
                                 <option value="">Selecione uma jornada</option>
                                 {journeys.map((journey) => (
@@ -128,6 +129,18 @@ export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) 
                         </Button>
                     </form>
                 </SacredCard>
+
+                {!journeys.length ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Crie uma jornada antes da primeira semana
+                        </p>
+                        <p className="mt-4 text-sm leading-8 text-white/58">
+                            As semanas dependem de uma jornada existente. Publique a estrutura da
+                            jornada em Admin / Jornadas e depois volte aqui.
+                        </p>
+                    </SacredCard>
+                ) : null}
 
                 <div className="space-y-5">
                     {weeks.map((week) => (
@@ -216,6 +229,18 @@ export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) 
                         </SacredCard>
                     ))}
                 </div>
+
+                {!weeks.length ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Nenhuma semana cadastrada
+                        </p>
+                        <p className="mt-4 text-sm leading-8 text-white/58">
+                            Quando a primeira semana for criada, esta area passara a mostrar os
+                            formularios de edicao e o controle de semana atual.
+                        </p>
+                    </SacredCard>
+                ) : null}
             </section>
         </PageShell>
     );

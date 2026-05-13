@@ -12,8 +12,8 @@ export type JourneyWithWeeks = Journey & {
     weeks: Week[];
 };
 
-const SUPABASE_SCHEMA_HINT =
-    "Supabase migrations not applied. Run the documented Supabase CLI workflow before loading these pages.";
+const SCHEMA_NOT_APPLIED_MESSAGE =
+    "Schema nao aplicado. Rode as migrations e o seed do Supabase.";
 
 function isMissingSchemaError(error: unknown) {
     return (
@@ -24,8 +24,24 @@ function isMissingSchemaError(error: unknown) {
     );
 }
 
+function isNoRowsError(error: unknown) {
+    return (
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        error.code === "PGRST116"
+    );
+}
+
 function logSchemaHint(error: unknown, context: string) {
-    console.error(`${SUPABASE_SCHEMA_HINT} Context: ${context}.`, error);
+    console.error(
+        `${SCHEMA_NOT_APPLIED_MESSAGE} Run supabase db push and apply the project seed. Context: ${context}.`,
+        error
+    );
+}
+
+function logJourneyError(error: unknown, context: string) {
+    console.error(`Supabase journeys query failed. Context: ${context}.`, error);
 }
 
 async function safeListQuery<T>(
@@ -41,7 +57,12 @@ async function safeListQuery<T>(
                 return [];
             }
 
-            throw error;
+            if (isNoRowsError(error)) {
+                return [];
+            }
+
+            logJourneyError(error, context);
+            return [];
         }
 
         return data ?? [];
@@ -51,7 +72,12 @@ async function safeListQuery<T>(
             return [];
         }
 
-        throw error;
+        if (isNoRowsError(error)) {
+            return [];
+        }
+
+        logJourneyError(error, context);
+        return [];
     }
 }
 
@@ -68,7 +94,12 @@ async function safeSingleQuery<T>(
                 return null;
             }
 
-            throw error;
+            if (isNoRowsError(error)) {
+                return null;
+            }
+
+            logJourneyError(error, context);
+            return null;
         }
 
         return data;
@@ -78,7 +109,12 @@ async function safeSingleQuery<T>(
             return null;
         }
 
-        throw error;
+        if (isNoRowsError(error)) {
+            return null;
+        }
+
+        logJourneyError(error, context);
+        return null;
     }
 }
 

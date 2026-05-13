@@ -120,6 +120,18 @@ export default async function AdminJourneysPage({
                         </SacredCard>
                     ))}
                 </div>
+
+                {!journeys.length ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Nenhuma jornada cadastrada
+                        </p>
+                        <p className="mt-4 text-sm leading-8 text-white/58">
+                            O formulario acima pode ser usado para criar a primeira jornada sem
+                            depender de dados previos.
+                        </p>
+                    </SacredCard>
+                ) : null}
             </section>
         </PageShell>
     );

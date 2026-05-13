@@ -1,15 +1,15 @@
 # Trazendo o Reino
 
-Plataforma editorial de jornadas bíblicas com Next.js App Router, TypeScript, TailwindCSS, shadcn/ui e Supabase.
+Plataforma editorial de jornadas biblicas com Next.js App Router, TypeScript, TailwindCSS, shadcn/ui e Supabase.
 
-## Visão rápida
+## Visao rapida
 
-- Landing page pública premium/editorial
-- Área autenticada para jornadas e semanas
-- Área administrativa para jornadas, semanas e colaboradores
+- Landing page publica premium/editorial
+- Area autenticada para jornadas e semanas
+- Area administrativa para jornadas, semanas e colaboradores
 - Supabase com migrations versionadas via CLI
 
-## Instalação
+## Instalacao
 
 ```bash
 corepack pnpm@10 install
@@ -43,19 +43,22 @@ pnpm supabase:status
 
 - Config CLI: `supabase/config.toml`
 - Migration inicial: `supabase/migrations/20260513013220_initial_platform.sql`
+- Migration de correcao do trigger de profiles: `supabase/migrations/20260513094500_fix_profiles_trigger.sql`
 - Seed oficial: `supabase/seed.sql`
+- Backfill opcional para usuarios antigos: `scripts/backfill-profiles.sql`
 - Healthcheck local: `/api/health/supabase`
 
 ## Workflow de migrations
 
-1. Faça login na CLI
+1. Faca login na CLI
 2. Linke o projeto remoto
 3. Rode `pnpm supabase:push`
-4. Gere types com `pnpm supabase:types`
+4. Se ja existirem usuarios, rode o backfill manualmente no SQL Editor
+5. Gere types com `pnpm supabase:types`
 
 ## Seed
 
-- O seed oficial mantém a jornada `genesis`
+- O seed oficial mantem a jornada `genesis`
 - Cria as semanas `00` e `01`
 - Define a semana `01` como atual
 
@@ -65,7 +68,15 @@ Em `development`, teste:
 
 - [http://localhost:3000/api/health/supabase](http://localhost:3000/api/health/supabase)
 
-## Documentação
+Verifique especialmente:
+
+- `hasProfilesTrigger`
+- `missingProfilesCount`
+- `profilesTableExists`
+- `journeysTableExists`
+- `weeksTableExists`
+
+## Documentacao
 
 - [Project Overview](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\PROJECT_OVERVIEW.md)
 - [Architecture](C:\PROJETOS\trazendooreinomain\trazendooreino\docs\ARCHITECTURE.md)
