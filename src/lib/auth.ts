@@ -21,9 +21,22 @@ function isMissingSchemaError(error: unknown) {
     return isSupabaseError(error) && error.code === "PGRST205";
 }
 
+function isMissingSessionError(error: unknown) {
+    return (
+        typeof error === "object" &&
+        error !== null &&
+        "name" in error &&
+        error.name === "AuthSessionMissingError"
+    );
+}
+
 function logAuthError(context: string, error: unknown) {
     if (isMissingSchemaError(error)) {
         console.error(`${AUTH_SCHEMA_HINT} Context: ${context}.`, error);
+        return;
+    }
+
+    if (isMissingSessionError(error)) {
         return;
     }
 

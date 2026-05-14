@@ -104,19 +104,27 @@ export default async function AuthenticatedWeekPage({
                     <div className="grid gap-4">
                         <ResourceCard
                             icon={Download}
-                            title="PDF complementar"
-                            text="Material editorial da semana para leitura, anotações e aprofundamento."
+                            title="Baixar PDF"
+                            text={
+                                currentWeek.pdf_url
+                                    ? "Material oficial da semana para leitura e estudo."
+                                    : "PDF em preparacao."
+                            }
                             href={currentWeek.pdf_url}
                         />
                         <ResourceCard
                             icon={PlayCircle}
-                            title="Vídeo e gravação"
-                            text="Acesse a preparação ou o encontro já gravado."
+                            title="Assistir encontro"
+                            text={
+                                currentWeek.video_url
+                                    ? "Acesse a preparacao ou o encontro gravado."
+                                    : "Encontro em preparacao."
+                            }
                             href={currentWeek.video_url}
                         />
                         <ResourceCard
                             icon={CalendarDays}
-                            title="Data de liberação"
+                            title="Data de liberacao"
                             text={
                                 currentWeek.release_at
                                     ? formatDateTime(currentWeek.release_at)
@@ -125,6 +133,23 @@ export default async function AuthenticatedWeekPage({
                         />
                     </div>
                 </div>
+
+                {currentWeek.content ? (
+                    <SacredCard>
+                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                            Conteudo da semana
+                        </p>
+                        <div className="mt-5 space-y-4">
+                            {currentWeek.content.split("\n").map((paragraph) =>
+                                paragraph.trim() ? (
+                                    <p key={paragraph} className="text-sm leading-8 text-white/60">
+                                        {paragraph}
+                                    </p>
+                                ) : null
+                            )}
+                        </div>
+                    </SacredCard>
+                ) : null}
 
                 <SacredCard>
                     <form action={submitWeekQuestionAction} className="space-y-4">
@@ -136,7 +161,7 @@ export default async function AuthenticatedWeekPage({
                                 Pergunta da semana
                             </p>
                             <p className="mt-3 text-sm leading-7 text-white/56">
-                                Envie uma pergunta que nasça do texto, do tema ou da conexão com
+                                Envie uma pergunta que nasca do texto, do tema ou da conexao com
                                 Cristo e o Reino.
                             </p>
                         </div>

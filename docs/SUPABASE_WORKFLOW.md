@@ -24,6 +24,7 @@ Esse script usa o project ref `qtgayxaidwycwlpkjcam`.
 - Commits estruturais de banco devem sempre entrar em `supabase/migrations/`
 - Nao editar `supabase/schema.sql` como fonte principal
 - O fluxo de auth/profile depende da migration `20260513094500_fix_profiles_trigger.sql`
+- O admin editorial depende da migration `20260513103000_editorial_admin_workflow.sql`
 
 ## Push
 
@@ -63,6 +64,14 @@ Gera `src/lib/database.types.ts` a partir do projeto linkado. Enquanto o projeto
 - Secret key em `SUPABASE_SERVICE_ROLE_KEY`
 - Secret key nunca em client component
 - Nao rodar `db push` remoto sem revisar migrations e seed
+
+## Storage weekly-pdfs
+
+- A migration cria o bucket `weekly-pdfs`
+- O bucket fica publico no MVP para facilitar download direto
+- Admins enviam PDFs pela rota `/admin/semanas/[id]/editar`
+- A URL publica gerada e salva em `weeks.pdf_url`
+- Se a criacao automatica do bucket falhar por permissao do projeto, crie manualmente um bucket publico chamado `weekly-pdfs`
 
 ## Backfill de usuarios existentes
 

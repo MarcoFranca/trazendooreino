@@ -26,6 +26,14 @@ Cada semana carrega:
 - Controlada por `weeks.is_current`
 - Apenas uma semana por jornada deve ser marcada como atual
 
+## Regra de publicacao
+
+- Jornada aparece para usuarios quando `is_published = true` e `deleted_at is null`
+- Semana aparece quando `is_published = true`, `release_at <= now()` e `deleted_at is null`
+- Semanas futuras podem aparecer bloqueadas na pagina da jornada, com a data de liberacao
+- A pagina da semana usa `pdf_url` para o botao `Baixar PDF`
+- A pagina da semana usa `video_url` para o botao `Assistir encontro`
+
 ## Semana 00 publica
 
 - Rota: `/genesis/00`
@@ -74,6 +82,8 @@ Cada semana carrega:
 - `pdf_url`
 - `video_url`
 - `webinar_date`
+- `release_at`
+- `content`
 
 ## Perguntas
 

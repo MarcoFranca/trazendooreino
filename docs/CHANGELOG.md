@@ -20,3 +20,4 @@
 - Adicao de estilos globais de impressao para A4, ocultacao de chrome do site e controle de page break
 - Atualizacao da documentacao para o padrao de semanas publicas e PDFs futuros
 - Expansao da Semana 00 para carregar o estudo integral do material-base, incluindo metodo semanal, leituras complementares, mapa completo da temporada, exercicios, reflexoes e oracao final
+- Evolucao do admin para gestao editorial com rotas de criacao/edicao, soft delete, publicacao, release por data, semana atual e upload de PDF oficial em `weekly-pdfs`

@@ -4,7 +4,8 @@ import { PageShell } from "@/components/sacred/page-shell";
 import { SacredCard } from "@/components/sacred/sacred-card";
 import { SectionHeader } from "@/components/sacred/section-header";
 import { WeekCard } from "@/components/journey/week-card";
-import { getJourneyBySlug, getJourneyWeeks } from "@/lib/journeys";
+import { formatDateTime, isReleased } from "@/lib/format";
+import { getJourneyBySlug, getJourneyWeeksForDisplay } from "@/lib/journeys";
 
 type JourneyDetailPageProps = {
     params: Promise<{ slug: string }>;
@@ -20,7 +21,7 @@ export default async function JourneyDetailPage({
         notFound();
     }
 
-    const weeks = await getJourneyWeeks(journey.id);
+    const weeks = await getJourneyWeeksForDisplay(journey.id);
 
     return (
         <PageShell>
@@ -47,14 +48,29 @@ export default async function JourneyDetailPage({
                 </SacredCard>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {weeks.map((week) => (
-                        <WeekCard
-                            key={week.id}
-                            slug={journey.slug}
-                            week={week}
-                            href={`/app/jornadas/${journey.slug}/${week.week_number}`}
-                        />
-                    ))}
+                    {weeks.map((week) => {
+                        const locked = !isReleased(week.release_at);
+
+                        return (
+                            <div key={week.id} className="space-y-3">
+                                <WeekCard
+                                    slug={journey.slug}
+                                    week={week}
+                                    href={
+                                        locked
+                                            ? `/app/jornadas/${journey.slug}`
+                                            : `/app/jornadas/${journey.slug}/${week.week_number}`
+                                    }
+                                    locked={locked}
+                                />
+                                {locked ? (
+                                    <p className="px-2 text-xs uppercase tracking-[0.16em] text-white/34">
+                                        Liberacao: {formatDateTime(week.release_at)}
+                                    </p>
+                                ) : null}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {!weeks.length ? (

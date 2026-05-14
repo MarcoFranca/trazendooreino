@@ -15,8 +15,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { genesisWeek00 } from "@/lib/genesis-week-00";
+import { getPublicReleasedWeekByJourneySlug } from "@/lib/journeys";
 
-export default function GenesisWeek00Page() {
+export default async function GenesisWeek00Page() {
+    const publishedWeek = await getPublicReleasedWeekByJourneySlug("genesis", "00");
+
     return (
         <>
             <SiteHeader />
@@ -83,8 +86,10 @@ export default function GenesisWeek00Page() {
                                     variant="outline"
                                     className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
                                 >
-                                    <Link href="/genesis/00/pdf">
-                                        Abrir versao em PDF
+                                    <Link href={publishedWeek?.pdf_url ?? "/genesis/00/pdf"}>
+                                        {publishedWeek?.pdf_url
+                                            ? "Baixar PDF oficial"
+                                            : "Abrir versao em PDF"}
                                         <Download className="size-5" />
                                     </Link>
                                 </Button>
@@ -640,8 +645,10 @@ export default function GenesisWeek00Page() {
                                 variant="outline"
                                 className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
                             >
-                                <Link href="/genesis/00/pdf">
-                                    Abrir o material para impressao
+                                <Link href={publishedWeek?.pdf_url ?? "/genesis/00/pdf"}>
+                                    {publishedWeek?.pdf_url
+                                        ? "Baixar PDF oficial"
+                                        : "Abrir o material para impressao"}
                                     <Download className="size-5" />
                                 </Link>
                             </Button>

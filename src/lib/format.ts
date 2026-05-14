@@ -34,3 +34,11 @@ export function toDatetimeLocalValue(value: string | null) {
     const local = new Date(date.getTime() - offset * 60_000);
     return local.toISOString().slice(0, 16);
 }
+
+export function isReleased(value: string | null) {
+    if (!value) {
+        return false;
+    }
+
+    return new Date(value).getTime() <= Date.now();
+}

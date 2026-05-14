@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -11,31 +11,6 @@ export type Database = {
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.5"
-  }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
   }
   public: {
     Tables: {
@@ -91,32 +66,38 @@ export type Database = {
         Row: {
           cover_image: string | null
           created_at: string
+          deleted_at: string | null
           description: string | null
           id: string
           is_published: boolean
           slug: string
           subtitle: string | null
           title: string
+          updated_at: string
         }
         Insert: {
           cover_image?: string | null
           created_at?: string
+          deleted_at?: string | null
           description?: string | null
           id?: string
           is_published?: boolean
           slug: string
           subtitle?: string | null
           title: string
+          updated_at?: string
         }
         Update: {
           cover_image?: string | null
           created_at?: string
+          deleted_at?: string | null
           description?: string | null
           id?: string
           is_published?: boolean
           slug?: string
           subtitle?: string | null
           title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -186,7 +167,9 @@ export type Database = {
       weeks: {
         Row: {
           christ_focus: string | null
+          content: string | null
           created_at: string
+          deleted_at: string | null
           id: string
           is_current: boolean
           is_published: boolean
@@ -195,15 +178,19 @@ export type Database = {
           pdf_url: string | null
           reading: string | null
           release_at: string | null
+          slug: string | null
           summary: string | null
           title: string
+          updated_at: string
           video_url: string | null
           webinar_date: string | null
           week_number: string
         }
         Insert: {
           christ_focus?: string | null
+          content?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           is_current?: boolean
           is_published?: boolean
@@ -212,15 +199,19 @@ export type Database = {
           pdf_url?: string | null
           reading?: string | null
           release_at?: string | null
+          slug?: string | null
           summary?: string | null
           title: string
+          updated_at?: string
           video_url?: string | null
           webinar_date?: string | null
           week_number: string
         }
         Update: {
           christ_focus?: string | null
+          content?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           is_current?: boolean
           is_published?: boolean
@@ -229,8 +220,10 @@ export type Database = {
           pdf_url?: string | null
           reading?: string | null
           release_at?: string | null
+          slug?: string | null
           summary?: string | null
           title?: string
+          updated_at?: string
           video_url?: string | null
           webinar_date?: string | null
           week_number?: string
@@ -250,6 +243,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      auth_users_count: { Args: never; Returns: number }
+      count_missing_profiles: { Args: never; Returns: number }
+      has_profiles_trigger: { Args: never; Returns: boolean }
       is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
@@ -379,11 +375,7 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },
 } as const
-

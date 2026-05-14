@@ -20,15 +20,19 @@ export type Journey = {
     cover_image: string | null;
     is_published: boolean;
     created_at: string;
+    updated_at?: string;
+    deleted_at?: string | null;
 };
 
 export type Week = {
     id: string;
     journey_id: string;
     week_number: string;
+    slug?: string | null;
     title: string;
     reading: string | null;
     summary: string | null;
+    content?: string | null;
     christ_focus: string | null;
     kingdom_focus: string | null;
     pdf_url: string | null;
@@ -38,6 +42,8 @@ export type Week = {
     is_current: boolean;
     is_published: boolean;
     created_at: string;
+    updated_at?: string;
+    deleted_at?: string | null;
 };
 
 export type WeekQuestion = {
