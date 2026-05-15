@@ -7,12 +7,63 @@ import { SectionHeader } from "@/components/sacred/section-header";
 import { WeekCard } from "@/components/journey/week-card";
 import { Button } from "@/components/ui/button";
 import { getViewer } from "@/lib/auth";
-import { currentGenesisWeek, genesisJourney, genesisOutcomes, genesisWeeks } from "@/lib/genesis-journey-data";
+import {
+    currentGenesisWeek,
+    genesisJourney,
+    genesisOutcomes,
+    genesisWeeks as fallbackWeeks,
+} from "@/lib/genesis-journey-data";
+import { formatDateTime } from "@/lib/format";
+import type { UserWeek } from "@/lib/journeys";
+import { getPublicJourneyPreviewBySlug } from "@/lib/journeys";
 
 export default async function GenesisPage() {
-    const { user } = await getViewer();
+    const [{ user }, preview] = await Promise.all([
+        getViewer(),
+        getPublicJourneyPreviewBySlug("genesis"),
+    ]);
+
+    const previewWeeks = preview?.weeks ?? [];
+    const weeks: UserWeek[] =
+        previewWeeks.length > 0
+            ? previewWeeks
+            : fallbackWeeks.map((week) => ({
+                  id: week.week,
+                  journey_id: "genesis",
+                  week_number: week.week,
+                  slug: week.week,
+                  title: week.title,
+                  reading: week.reading,
+                  summary: null,
+                  content: null,
+                  christ_focus: week.christ,
+                  kingdom_focus: week.kingdom,
+                  pdf_url: null,
+                  video_url: null,
+                  webinar_date: null,
+                  release_at: null,
+                  is_current: week.status === "current",
+                  is_published: week.status !== "locked",
+                  created_at: "",
+                  isAccessible: week.status !== "locked",
+                  status:
+                      week.status === "current"
+                          ? "current"
+                          : week.status === "available"
+                            ? "available"
+                            : "upcoming" as const,
+                  availableAt: null,
+              }));
+
+    const currentPreviewWeek =
+        weeks.find((week) => week.status === "current") ??
+        weeks.find((week) => week.isAccessible) ??
+        null;
+
     const currentHref = user
-        ? `/app/jornadas/genesis/${currentGenesisWeek.week}`
+        ? currentPreviewWeek
+            ? `/app/jornadas/genesis/${currentPreviewWeek.slug ?? currentPreviewWeek.week_number}`
+            : "/app/jornadas/genesis"
         : "/genesis/00";
     const seasonHref = user ? "/app/jornadas/genesis" : "/genesis";
 
@@ -25,9 +76,9 @@ export default async function GenesisPage() {
                             eyebrow={`${genesisJourney.subtitle} · ${genesisJourney.duration}`}
                             title={
                                 <>
-                                    Gênesis
+                                    Genesis
                                     <span className="block bg-gradient-to-b from-[#fff7df] via-[#e9cf8c] to-[#a97935] bg-clip-text text-transparent">
-                                        Do Éden à Promessa.
+                                        Do Eden a Promessa.
                                     </span>
                                 </>
                             }
@@ -46,7 +97,7 @@ export default async function GenesisPage() {
                                 className="cta-shimmer h-14 rounded-full bg-[#d6b56d] px-8 text-sm font-semibold text-black shadow-[0_0_40px_rgba(214,181,109,0.2)] hover:bg-[#e7c979]"
                             >
                                 <Link href={currentHref}>
-                                    Começar pela semana atual
+                                    Comecar pela semana atual
                                     <ArrowRight className="size-5" />
                                 </Link>
                             </Button>
@@ -67,18 +118,19 @@ export default async function GenesisPage() {
                         </div>
 
                         <p className="sacred-inscription text-[10px] text-[#d6b56d]">
-                            Semana atual
+                            Semana em foco
                         </p>
 
                         <h2 className="font-display mt-5 text-3xl font-semibold leading-tight tracking-[-0.04em] text-white md:text-5xl">
-                            Semana {currentGenesisWeek.week}
+                            Semana {currentPreviewWeek?.week_number ?? currentGenesisWeek.week}
                             <span className="block text-[#e8d7ad]">
-                                {currentGenesisWeek.title}
+                                {currentPreviewWeek?.title ?? currentGenesisWeek.title}
                             </span>
                         </h2>
 
                         <p className="mt-6 text-sm leading-7 text-white/58">
-                            Leitura principal: {currentGenesisWeek.reading}
+                            Leitura principal:{" "}
+                            {currentPreviewWeek?.reading ?? currentGenesisWeek.reading}
                         </p>
 
                         <div className="mt-8 grid gap-3">
@@ -87,7 +139,7 @@ export default async function GenesisPage() {
                                     Cristo no texto
                                 </p>
                                 <p className="mt-2 text-sm leading-7 text-white/68">
-                                    {currentGenesisWeek.christ}
+                                    {currentPreviewWeek?.christ_focus ?? currentGenesisWeek.christ}
                                 </p>
                             </div>
 
@@ -96,7 +148,7 @@ export default async function GenesisPage() {
                                     Reino no texto
                                 </p>
                                 <p className="mt-2 text-sm leading-7 text-white/68">
-                                    {currentGenesisWeek.kingdom}
+                                    {currentPreviewWeek?.kingdom_focus ?? currentGenesisWeek.kingdom}
                                 </p>
                             </div>
                         </div>
@@ -114,41 +166,31 @@ export default async function GenesisPage() {
                         </p>
 
                         <h2 className="font-display mt-5 text-4xl font-semibold leading-tight tracking-[-0.04em] md:text-5xl">
-                            15 encontros para atravessar Gênesis.
+                            15 encontros para atravessar Genesis.
                         </h2>
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {genesisWeeks.map((week) => (
-                            <WeekCard
-                                key={week.week}
-                                slug="genesis"
-                                week={{
-                                    id: week.week,
-                                    journey_id: "genesis",
-                                    week_number: week.week,
-                                    title: week.title,
-                                    reading: week.reading,
-                                    summary: null,
-                                    christ_focus: week.christ,
-                                    kingdom_focus: week.kingdom,
-                                    pdf_url: null,
-                                    video_url: null,
-                                    webinar_date: null,
-                                    release_at: null,
-                                    is_current: week.status === "current",
-                                    is_published: week.status !== "locked",
-                                    created_at: "",
-                                }}
-                                href={
-                                    week.status === "locked"
-                                        ? seasonHref
-                                        : week.week === "00"
-                                          ? "/genesis/00"
-                                          : `/genesis/${week.week}`
-                                }
-                                locked={week.status === "locked"}
-                            />
+                        {weeks.map((week) => (
+                            <div key={week.id} className="space-y-3">
+                                <WeekCard
+                                    slug="genesis"
+                                    week={week}
+                                    href={
+                                        !week.isAccessible
+                                            ? seasonHref
+                                            : week.week_number === "00"
+                                              ? "/genesis/00"
+                                              : `/genesis/${week.slug ?? week.week_number}`
+                                    }
+                                    locked={!week.isAccessible}
+                                />
+                                {!week.isAccessible && week.availableAt ? (
+                                    <p className="px-2 text-xs uppercase tracking-[0.16em] text-white/34">
+                                        Liberacao: {formatDateTime(week.availableAt)}
+                                    </p>
+                                ) : null}
+                            </div>
                         ))}
                     </div>
                 </section>
@@ -157,7 +199,7 @@ export default async function GenesisPage() {
                     <SacredCard>
                         <Sparkles className="size-5 text-[#d6b56d]" />
                         <h2 className="font-display mt-6 text-4xl font-semibold leading-tight tracking-[-0.04em] text-white">
-                            O que essa jornada precisa formar em você.
+                            O que essa jornada precisa formar em voce.
                         </h2>
                         <p className="mt-6 text-base leading-8 text-white/58">
                             {genesisJourney.objective}

@@ -34,6 +34,20 @@ pnpm supabase:push
 
 Aplica migrations pendentes ao projeto linkado. Nao e executado automaticamente pelo agente.
 
+## Seed remoto
+
+```bash
+pnpm supabase:seed:remote
+```
+
+Executa explicitamente `supabase/seed.sql` no banco remoto linkado.
+
+Observacao:
+
+- `pnpm exec supabase db push --include-seed` pode atualizar o hash do seed sem necessariamente ser a forma mais clara de reaplicar dados em um projeto remoto que ja existe
+- para garantir a carga do seed oficial no remoto, prefira `pnpm supabase:seed:remote`
+- `db reset` continua sendo o fluxo mais direto para ambiente local
+
 ## Pull
 
 ```bash
@@ -78,9 +92,10 @@ Gera `src/lib/database.types.ts` a partir do projeto linkado. Enquanto o projeto
 Depois de aplicar migrations em um projeto que ja possui usuarios:
 
 1. Rode `pnpm exec supabase db push`
-2. Abra o SQL Editor do Supabase
-3. Execute `scripts/backfill-profiles.sql`
-4. Confira `/api/health/supabase` em development
+2. Rode `pnpm supabase:seed:remote`
+3. Abra o SQL Editor do Supabase
+4. Execute `scripts/backfill-profiles.sql`
+5. Confira `/api/health/supabase` em development
 
 ## Diagnostico rapido
 

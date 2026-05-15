@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, Download, PlayCircle } from "lucide-react";
 
 import { submitWeekQuestionAction } from "@/app/actions/journeys";
+import { StatusBadge } from "@/components/journey/status-badge";
 import { PageShell } from "@/components/sacred/page-shell";
 import { SacredCard } from "@/components/sacred/sacred-card";
 import { SectionHeader } from "@/components/sacred/section-header";
@@ -10,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatDateTime } from "@/lib/format";
-import { getJourneyBySlug, getJourneyWeekByNumber } from "@/lib/journeys";
+import { getJourneyForUser, getWeekForUser } from "@/lib/journeys";
 
 type WeekPageProps = {
     params: Promise<{ slug: string; week: string }>;
@@ -22,21 +24,74 @@ export default async function AuthenticatedWeekPage({
     searchParams,
 }: WeekPageProps) {
     const [{ slug, week }, query] = await Promise.all([params, searchParams]);
-    const journey = await getJourneyBySlug(slug);
+    const journey = await getJourneyForUser(slug);
 
     if (!journey) {
         notFound();
     }
 
-    const currentWeek = await getJourneyWeekByNumber(journey.id, week);
+    const currentWeek = await getWeekForUser(slug, week);
 
     if (!currentWeek) {
         notFound();
     }
 
+    if (!journey.isAccessible || !currentWeek.isAccessible) {
+        return (
+            <PageShell>
+                <section className="space-y-10">
+                    <SectionHeader
+                        eyebrow={`${journey.title} · semana ${currentWeek.week_number}`}
+                        title={
+                            <>
+                                {currentWeek.title}
+                                <span className="block text-[#e8d7ad]">
+                                    Esta semana ainda nao foi aberta.
+                                </span>
+                            </>
+                        }
+                        description={currentWeek.summary ?? ""}
+                    />
+
+                    <SacredCard>
+                        <div className="flex flex-wrap items-center justify-between gap-4">
+                            <StatusBadge
+                                status={
+                                    currentWeek.status === "upcoming"
+                                        ? "upcoming"
+                                        : "locked"
+                                }
+                            />
+                            {currentWeek.availableAt ? (
+                                <p className="text-sm leading-7 text-[#e8d7ad]">
+                                    Esta semana sera aberta em{" "}
+                                    {formatDateTime(currentWeek.availableAt)}.
+                                </p>
+                            ) : null}
+                        </div>
+
+                        <p className="mt-6 text-sm leading-8 text-white/58">
+                            O mapa editorial ja esta preparado, mas o conteudo completo desta
+                            semana sera liberado somente quando chegar o tempo definido para a
+                            jornada.
+                        </p>
+
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="mt-8 rounded-full border-white/12 bg-white/[0.04] text-white hover:bg-white/[0.08]"
+                        >
+                            <Link href={`/app/jornadas/${journey.slug}`}>Voltar para a jornada</Link>
+                        </Button>
+                    </SacredCard>
+                </section>
+            </PageShell>
+        );
+    }
+
     const success = typeof query.success === "string" ? query.success : null;
     const error = typeof query.error === "string" ? query.error : null;
-    const returnTo = `/app/jornadas/${slug}/${week}`;
+    const returnTo = `/app/jornadas/${slug}/${currentWeek.slug ?? currentWeek.week_number}`;
 
     return (
         <PageShell>
@@ -57,14 +112,22 @@ export default async function AuthenticatedWeekPage({
                 <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
                     <SacredCard>
                         <div className="space-y-6">
-                            <div>
+                            <div className="flex flex-wrap items-center justify-between gap-3">
                                 <p className="sacred-inscription text-[10px] text-[#d6b56d]">
                                     Leitura principal
                                 </p>
-                                <p className="mt-3 text-base leading-8 text-white/70">
-                                    {currentWeek.reading ?? "Leitura ainda nao informada."}
-                                </p>
+                                <StatusBadge
+                                    status={
+                                        currentWeek.status === "current"
+                                            ? "current"
+                                            : "available"
+                                    }
+                                />
                             </div>
+
+                            <p className="text-base leading-8 text-white/70">
+                                {currentWeek.reading ?? "Leitura ainda nao informada."}
+                            </p>
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="rounded-2xl border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4">

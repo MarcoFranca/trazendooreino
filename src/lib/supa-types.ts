@@ -18,6 +18,7 @@ export type Journey = {
     subtitle: string | null;
     description: string | null;
     cover_image: string | null;
+    release_at?: string | null;
     is_published: boolean;
     created_at: string;
     updated_at?: string;

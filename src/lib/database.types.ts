@@ -70,6 +70,7 @@ export type Database = {
           description: string | null
           id: string
           is_published: boolean
+          release_at: string | null
           slug: string
           subtitle: string | null
           title: string
@@ -82,6 +83,7 @@ export type Database = {
           description?: string | null
           id?: string
           is_published?: boolean
+          release_at?: string | null
           slug: string
           subtitle?: string | null
           title: string
@@ -94,6 +96,7 @@ export type Database = {
           description?: string | null
           id?: string
           is_published?: boolean
+          release_at?: string | null
           slug?: string
           subtitle?: string | null
           title?: string

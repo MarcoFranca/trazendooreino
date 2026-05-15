@@ -3,9 +3,12 @@
 ## O que o admin pode fazer
 
 - Ver dashboard editorial em `/admin`
+- Ver todas as jornadas cadastradas
 - Criar, editar, publicar, despublicar e arquivar jornadas
+- Definir `release_at` da jornada
+- Ver todas as semanas cadastradas
 - Criar, editar, publicar, despublicar e arquivar semanas
-- Definir `release_at` para liberacao por data
+- Definir `release_at` da semana
 - Marcar uma semana como `is_current`
 - Salvar `pdf_url` manualmente
 - Enviar PDF oficial para o bucket `weekly-pdfs`
@@ -29,13 +32,15 @@
 
 1. Criar jornada em `/admin/jornadas/nova`
 2. Preencher `title`, `slug`, `subtitle`, `description`, `cover_image`
-3. Marcar `is_published` quando a jornada puder aparecer para usuarios
-4. Usar soft delete para arquivar, preenchendo `deleted_at`
+3. Definir `release_at` se a jornada deve aparecer como `Em breve`
+4. Marcar `is_published` quando a jornada puder aparecer para usuarios
+5. Usar soft delete para arquivar, preenchendo `deleted_at`
 
-Uma jornada aparece para usuarios quando:
+Estados editoriais de jornada:
 
-- `is_published = true`
-- `deleted_at is null`
+- `rascunho`: `is_published = false`
+- `programada`: `is_published = true` e `release_at > now()`
+- `publicada`: `is_published = true` e `release_at is null` ou `release_at <= now()`
 
 ## Fluxo de semana
 
@@ -47,16 +52,18 @@ Uma jornada aparece para usuarios quando:
 6. Informar `video_url`, se houver
 7. Publicar a semana
 
-Uma semana aparece para usuarios quando:
+Estados editoriais de semana:
 
-- `is_published = true`
-- `release_at <= now()`
-- `deleted_at is null`
+- `rascunho`: `is_published = false`
+- `programada`: `is_published = true` e `release_at > now()`
+- `publicada`: `is_published = true` e `release_at <= now()`
+- `atual`: `is_current = true`
 
 ## Semana atual
 
 - Marcada por `weeks.is_current = true`
 - Ao marcar uma semana como atual, as outras semanas da mesma jornada sao desmarcadas
+- O seed inicial marca `genesis` semana `01` como atual
 
 ## Upload de PDF
 
@@ -65,6 +72,17 @@ Uma semana aparece para usuarios quando:
 - A action `uploadWeekPdfAction` envia o arquivo e grava a URL publica em `weeks.pdf_url`
 - Limite configurado na migration: 50 MB
 - Tipo permitido: `application/pdf`
+
+## Seed editorial atual
+
+O projeto agora nasce com:
+
+- 10 jornadas oficiais da plataforma
+- `genesis` aberta
+- as outras jornadas programadas
+- semanas `00` a `14` de `genesis`
+- `00` e `01` liberadas
+- `02` a `14` programadas
 
 ## Limitacoes atuais
 

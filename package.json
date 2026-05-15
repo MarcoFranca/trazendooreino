@@ -10,6 +10,7 @@
     "supabase:login": "supabase login",
     "supabase:link": "supabase link --project-ref qtgayxaidwycwlpkjcam",
     "supabase:push": "supabase db push",
+    "supabase:seed:remote": "supabase db query --linked --file supabase/seed.sql",
     "supabase:pull": "supabase db pull",
     "supabase:reset": "supabase db reset",
     "supabase:types": "supabase gen types typescript --linked --schema public > src/lib/database.types.ts",

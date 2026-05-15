@@ -33,6 +33,7 @@ pnpm build
 pnpm supabase:login
 pnpm supabase:link
 pnpm supabase:push
+pnpm supabase:seed:remote
 pnpm supabase:pull
 pnpm supabase:reset
 pnpm supabase:types
@@ -53,14 +54,17 @@ pnpm supabase:status
 1. Faca login na CLI
 2. Linke o projeto remoto
 3. Rode `pnpm supabase:push`
-4. Se ja existirem usuarios, rode o backfill manualmente no SQL Editor
-5. Gere types com `pnpm supabase:types`
+4. Rode `pnpm supabase:seed:remote` para executar `supabase/seed.sql` no banco remoto
+5. Se ja existirem usuarios, rode o backfill manualmente no SQL Editor
+6. Gere types com `pnpm supabase:types`
 
 ## Seed
 
 - O seed oficial mantem a jornada `genesis`
-- Cria as semanas `00` e `01`
+- Cadastra as 10 jornadas da plataforma
+- Cria as semanas `00` a `14` de `genesis`
 - Define a semana `01` como atual
+- Para remoto ja existente, use `pnpm supabase:seed:remote`
 
 ## Healthcheck
 

@@ -11,12 +11,32 @@ import {
     createSupabaseServerClient,
 } from "@/lib/supabase/server";
 
+export type JourneyStatus = "available" | "upcoming" | "locked";
+export type WeekStatus = "available" | "current" | "upcoming" | "locked";
+export type AdminJourneyStatus = "published" | "programmed" | "draft";
+export type AdminWeekStatus = "current" | "published" | "programmed" | "draft";
+
 export type JourneyWithWeeks = Journey & {
     weeks: Week[];
 };
 
 export type AdminWeek = Week & {
     journeys: { title: string; slug: string } | null;
+};
+
+export type UserJourney = Journey & {
+    isAccessible: boolean;
+    status: JourneyStatus;
+    availableAt: string | null;
+    totalWeeks: number;
+    releasedWeeks: number;
+    currentWeek: Week | null;
+};
+
+export type UserWeek = Week & {
+    isAccessible: boolean;
+    status: WeekStatus;
+    availableAt: string | null;
 };
 
 const SCHEMA_NOT_APPLIED_MESSAGE =
@@ -125,9 +145,158 @@ async function safeSingleQuery<T>(
     }
 }
 
-export async function getPublishedJourneys() {
+function isReleased(value: string | null | undefined) {
+    if (!value) {
+        return false;
+    }
+
+    return new Date(value).getTime() <= Date.now();
+}
+
+function isJourneyAccessible(journey: Journey) {
+    return !journey.deleted_at && journey.is_published && (!journey.release_at || isReleased(journey.release_at));
+}
+
+function getJourneyStatus(journey: Journey): JourneyStatus {
+    if (isJourneyAccessible(journey)) {
+        return "available";
+    }
+
+    if (journey.release_at && !isReleased(journey.release_at)) {
+        return "upcoming";
+    }
+
+    return "locked";
+}
+
+function getWeekStatus(week: Week): WeekStatus {
+    if (!week.is_published || week.deleted_at) {
+        return "locked";
+    }
+
+    if (week.is_current && isReleased(week.release_at)) {
+        return "current";
+    }
+
+    if (isReleased(week.release_at)) {
+        return "available";
+    }
+
+    return "upcoming";
+}
+
+function isWeekAccessible(week: Week) {
+    const status = getWeekStatus(week);
+    return status === "available" || status === "current";
+}
+
+function getAdminJourneyStatus(journey: Journey): AdminJourneyStatus {
+    if (!journey.is_published) {
+        return "draft";
+    }
+
+    if (journey.release_at && !isReleased(journey.release_at)) {
+        return "programmed";
+    }
+
+    return "published";
+}
+
+function getAdminWeekStatus(week: Week): AdminWeekStatus {
+    if (!week.is_published) {
+        return "draft";
+    }
+
+    if (week.is_current) {
+        return "current";
+    }
+
+    if (week.release_at && !isReleased(week.release_at)) {
+        return "programmed";
+    }
+
+    return "published";
+}
+
+function enrichUserWeek(week: Week): UserWeek {
+    return {
+        ...week,
+        isAccessible: isWeekAccessible(week),
+        status: getWeekStatus(week),
+        availableAt: week.release_at,
+    };
+}
+
+function enrichUserJourney(journey: Journey, weeks: Week[]): UserJourney {
+    const releasedWeeks = weeks.filter((week) => isWeekAccessible(week)).length;
+    const currentWeek =
+        weeks.find((week) => week.is_current && isWeekAccessible(week)) ??
+        weeks.find((week) => isWeekAccessible(week)) ??
+        null;
+
+    return {
+        ...journey,
+        isAccessible: isJourneyAccessible(journey),
+        status: getJourneyStatus(journey),
+        availableAt: journey.release_at ?? null,
+        totalWeeks: weeks.length,
+        releasedWeeks,
+        currentWeek,
+    };
+}
+
+async function getPublishedWeeksByJourneyId(journeyId: string) {
     const supabase = await createSupabaseServerClient();
-    return safeListQuery<Journey>("getPublishedJourneys", async () =>
+    return safeListQuery<Week>(`getPublishedWeeksByJourneyId:${journeyId}`, async () =>
+        await supabase
+            .from("weeks")
+            .select("*")
+            .eq("journey_id", journeyId)
+            .eq("is_published", true)
+            .is("deleted_at", null)
+            .order("week_number", { ascending: true })
+            .returns<Week[]>()
+    );
+}
+
+export async function getAllJourneysForAdmin() {
+    const supabase = await createSupabaseServerClient();
+    const data = await safeListQuery<JourneyWithWeeks>("getAllJourneysForAdmin", async () =>
+        await supabase
+            .from("journeys")
+            .select("*, weeks(*)")
+            .is("deleted_at", null)
+            .order("created_at", { ascending: true })
+    );
+
+    return data.map((journey) => ({
+        ...journey,
+        weeks: [...(journey.weeks ?? [])].sort((left, right) =>
+            left.week_number.localeCompare(right.week_number)
+        ),
+    })) as JourneyWithWeeks[];
+}
+
+export async function getAllWeeksForAdmin() {
+    const supabase = await createSupabaseServerClient();
+    const data = await safeListQuery<AdminWeek>("getAllWeeksForAdmin", async () =>
+        await supabase
+            .from("weeks")
+            .select("*, journeys(title, slug)")
+            .is("deleted_at", null)
+            .order("release_at", { ascending: true, nullsFirst: true })
+            .order("week_number", { ascending: true })
+    );
+
+    return data.map((week) => ({
+        ...week,
+        adminStatus: getAdminWeekStatus(week),
+    })) as (AdminWeek & { adminStatus: AdminWeekStatus })[];
+}
+
+export async function getJourneysForUser() {
+    const supabase = await createSupabaseServerClient();
+    const journeys = await safeListQuery<Journey>("getJourneysForUser", async () =>
         await supabase
             .from("journeys")
             .select("*")
@@ -136,11 +305,18 @@ export async function getPublishedJourneys() {
             .order("created_at", { ascending: true })
             .returns<Journey[]>()
     );
+
+    const weeksByJourney = await Promise.all(
+        journeys.map(async (journey) => [journey.id, await getPublishedWeeksByJourneyId(journey.id)] as const)
+    );
+    const weekMap = new Map(weeksByJourney);
+
+    return journeys.map((journey) => enrichUserJourney(journey, weekMap.get(journey.id) ?? []));
 }
 
-export async function getJourneyBySlug(slug: string) {
+export async function getJourneyForUser(slug: string) {
     const supabase = await createSupabaseServerClient();
-    return safeSingleQuery<Journey>(`getJourneyBySlug:${slug}`, async () =>
+    const journey = await safeSingleQuery<Journey>(`getJourneyForUser:${slug}`, async () =>
         await supabase
             .from("journeys")
             .select("*")
@@ -149,51 +325,48 @@ export async function getJourneyBySlug(slug: string) {
             .is("deleted_at", null)
             .maybeSingle<Journey>()
     );
-}
 
-export async function getJourneyWeeks(journeyId: string, includeUnreleased = false) {
-    const supabase = await createSupabaseServerClient();
-    let query = supabase
-        .from("weeks")
-        .select("*")
-        .eq("journey_id", journeyId)
-        .eq("is_published", true)
-        .is("deleted_at", null)
-        .order("week_number", { ascending: true });
-
-    if (!includeUnreleased) {
-        query = query.lte("release_at", new Date().toISOString());
+    if (!journey) {
+        return null;
     }
 
-    return safeListQuery<Week>(`getJourneyWeeks:${journeyId}`, async () => await query.returns<Week[]>());
+    const weeks = await getPublishedWeeksByJourneyId(journey.id);
+    return enrichUserJourney(journey, weeks);
 }
 
-export async function getJourneyWeeksForDisplay(journeyId: string) {
-    return getJourneyWeeks(journeyId, true);
-}
+export async function getWeeksForUser(journeySlug: string) {
+    const journey = await getJourneyForUser(journeySlug);
 
-export async function getJourneyWeekByNumber(
-    journeyId: string,
-    weekNumber: string,
-    includeUnreleased = false
-) {
-    const supabase = await createSupabaseServerClient();
-    let query = supabase
-        .from("weeks")
-        .select("*")
-        .eq("journey_id", journeyId)
-        .eq("week_number", weekNumber)
-        .eq("is_published", true)
-        .is("deleted_at", null);
-
-    if (!includeUnreleased) {
-        query = query.lte("release_at", new Date().toISOString());
+    if (!journey) {
+        return [];
     }
 
-    return safeSingleQuery<Week>(
-        `getJourneyWeekByNumber:${journeyId}:${weekNumber}`,
-        async () => await query.maybeSingle<Week>()
+    const weeks = await getPublishedWeeksByJourneyId(journey.id);
+    return weeks.map(enrichUserWeek);
+}
+
+export async function getWeekForUser(journeySlug: string, weekIdentifier: string) {
+    const journey = await getJourneyForUser(journeySlug);
+
+    if (!journey) {
+        return null;
+    }
+
+    const supabase = await createSupabaseServerClient();
+    const week = await safeSingleQuery<Week>(
+        `getWeekForUser:${journeySlug}:${weekIdentifier}`,
+        async () =>
+            await supabase
+                .from("weeks")
+                .select("*")
+                .eq("journey_id", journey.id)
+                .eq("is_published", true)
+                .is("deleted_at", null)
+                .or(`week_number.eq.${weekIdentifier},slug.eq.${weekIdentifier}`)
+                .maybeSingle<Week>()
     );
+
+    return week ? enrichUserWeek(week) : null;
 }
 
 export async function getCurrentJourneyWeek() {
@@ -272,38 +445,6 @@ export async function getViewerQuestions(userId: string) {
     );
 }
 
-export async function getAdminJourneys() {
-    const supabase = await createSupabaseServerClient();
-    const data = await safeListQuery<JourneyWithWeeks>("getAdminJourneys", async () =>
-        await supabase
-            .from("journeys")
-            .select("*, weeks(*)")
-            .is("deleted_at", null)
-            .order("created_at", { ascending: true })
-    );
-
-    return data as JourneyWithWeeks[];
-}
-
-export async function getAdminWeeks() {
-    const supabase = await createSupabaseServerClient();
-    const data = await safeListQuery<AdminWeek>("getAdminWeeks", async () =>
-        await supabase
-            .from("weeks")
-            .select("*, journeys(title, slug)")
-            .is("deleted_at", null)
-            .order("release_at", { ascending: true, nullsFirst: true })
-            .order("week_number", { ascending: true })
-    );
-
-    return data as AdminWeek[];
-}
-
-export async function getAdminWeeksByJourney(journeyId: string) {
-    const weeks = await getAdminWeeks();
-    return weeks.filter((week) => week.journey_id === journeyId);
-}
-
 export async function getAdminCollaboratorApplications() {
     const supabase = await createSupabaseServerClient();
     return safeListQuery<CollaboratorApplication>("getAdminCollaboratorApplications", async () =>
@@ -315,10 +456,15 @@ export async function getAdminCollaboratorApplications() {
     );
 }
 
+export async function getAdminWeeksByJourney(journeyId: string) {
+    const weeks = await getAllWeeksForAdmin();
+    return weeks.filter((week) => week.journey_id === journeyId);
+}
+
 export async function getAdminDashboardStats() {
     const [journeys, weeks, applications] = await Promise.all([
-        getAdminJourneys(),
-        getAdminWeeks(),
+        getAllJourneysForAdmin(),
+        getAllWeeksForAdmin(),
         getAdminCollaboratorApplications(),
     ]);
 
@@ -335,35 +481,173 @@ export async function getAdminDashboardStats() {
 
 export async function getPublicReleasedWeekByJourneySlug(
     journeySlug: string,
-    weekNumber: string
+    weekIdentifier: string
 ) {
     try {
-        const supabase = createSupabaseAdminClient();
-        const { data, error } = await supabase
-            .from("weeks")
-            .select("*, journeys!inner(slug, is_published, deleted_at)")
-            .eq("journeys.slug", journeySlug)
-            .eq("journeys.is_published", true)
-            .is("journeys.deleted_at", null)
-            .eq("week_number", weekNumber)
+        const admin = createSupabaseAdminClient();
+        const { data: journey, error: journeyError } = await admin
+            .from("journeys")
+            .select("*")
+            .eq("slug", journeySlug)
             .eq("is_published", true)
             .is("deleted_at", null)
-            .lte("release_at", new Date().toISOString())
-            .maybeSingle<Week & { journeys: { slug: string } }>();
+            .maybeSingle<Journey>();
 
-        if (error) {
-            if (isMissingSchemaError(error)) {
-                logSchemaHint(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekNumber}`);
+        if (journeyError) {
+            if (isMissingSchemaError(journeyError)) {
+                logSchemaHint(journeyError, `getPublicReleasedWeekByJourneySlug:${journeySlug}`);
                 return null;
             }
 
-            logJourneyError(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekNumber}`);
+            logJourneyError(journeyError, `getPublicReleasedWeekByJourneySlug:${journeySlug}`);
+            return null;
+        }
+
+        if (!journey || !isJourneyAccessible(journey)) {
+            return null;
+        }
+
+        const { data, error } = await admin
+            .from("weeks")
+            .select("*")
+            .eq("journey_id", journey.id)
+            .eq("is_published", true)
+            .is("deleted_at", null)
+            .or(`week_number.eq.${weekIdentifier},slug.eq.${weekIdentifier}`)
+            .lte("release_at", new Date().toISOString())
+            .maybeSingle<Week>();
+
+        if (error) {
+            if (isMissingSchemaError(error)) {
+                logSchemaHint(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekIdentifier}`);
+                return null;
+            }
+
+            logJourneyError(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekIdentifier}`);
             return null;
         }
 
         return data;
     } catch (error) {
-        logJourneyError(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekNumber}`);
+        logJourneyError(error, `getPublicReleasedWeekByJourneySlug:${journeySlug}:${weekIdentifier}`);
         return null;
     }
 }
+
+export async function getPublicJourneyPreviewBySlug(slug: string) {
+    try {
+        const admin = createSupabaseAdminClient();
+        const { data: journey, error: journeyError } = await admin
+            .from("journeys")
+            .select("*")
+            .eq("slug", slug)
+            .eq("is_published", true)
+            .is("deleted_at", null)
+            .maybeSingle<Journey>();
+
+        if (journeyError) {
+            if (isMissingSchemaError(journeyError)) {
+                logSchemaHint(journeyError, `getPublicJourneyPreviewBySlug:${slug}`);
+                return null;
+            }
+
+            logJourneyError(journeyError, `getPublicJourneyPreviewBySlug:${slug}`);
+            return null;
+        }
+
+        if (!journey) {
+            return null;
+        }
+
+        const { data: weeks, error: weeksError } = await admin
+            .from("weeks")
+            .select("*")
+            .eq("journey_id", journey.id)
+            .eq("is_published", true)
+            .is("deleted_at", null)
+            .order("week_number", { ascending: true })
+            .returns<Week[]>();
+
+        if (weeksError) {
+            if (isMissingSchemaError(weeksError)) {
+                logSchemaHint(weeksError, `getPublicJourneyPreviewBySlug:${slug}:weeks`);
+                return {
+                    journey,
+                    weeks: [],
+                };
+            }
+
+            logJourneyError(weeksError, `getPublicJourneyPreviewBySlug:${slug}:weeks`);
+            return {
+                journey,
+                weeks: [],
+            };
+        }
+
+        return {
+            journey,
+            weeks: (weeks ?? []).map(enrichUserWeek),
+        };
+    } catch (error) {
+        logJourneyError(error, `getPublicJourneyPreviewBySlug:${slug}`);
+        return null;
+    }
+}
+
+export async function getPublishedJourneys() {
+    return getJourneysForUser();
+}
+
+export async function getJourneyBySlug(slug: string) {
+    const journey = await getJourneyForUser(slug);
+    return journey?.isAccessible ? journey : null;
+}
+
+export async function getJourneyWeeks(journeyId: string, includeUnreleased = false) {
+    const weeks = await getPublishedWeeksByJourneyId(journeyId);
+    return includeUnreleased ? weeks : weeks.filter((week) => isWeekAccessible(week));
+}
+
+export async function getJourneyWeeksForDisplay(journeyId: string) {
+    const weeks = await getPublishedWeeksByJourneyId(journeyId);
+    return weeks.map(enrichUserWeek);
+}
+
+export async function getJourneyWeekByNumber(
+    journeyId: string,
+    weekNumber: string,
+    includeUnreleased = false
+) {
+    const supabase = await createSupabaseServerClient();
+    const week = await safeSingleQuery<Week>(
+        `getJourneyWeekByNumber:${journeyId}:${weekNumber}`,
+        async () =>
+            await supabase
+                .from("weeks")
+                .select("*")
+                .eq("journey_id", journeyId)
+                .eq("week_number", weekNumber)
+                .eq("is_published", true)
+                .is("deleted_at", null)
+                .maybeSingle<Week>()
+    );
+
+    if (!week) {
+        return null;
+    }
+
+    return includeUnreleased || isWeekAccessible(week) ? week : null;
+}
+
+export async function getAdminJourneys() {
+    return getAllJourneysForAdmin();
+}
+
+export async function getAdminWeeks() {
+    return getAllWeeksForAdmin();
+}
+
+export {
+    getAdminJourneyStatus,
+    getAdminWeekStatus,
+};

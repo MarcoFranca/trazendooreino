@@ -6,6 +6,7 @@ import { SacredCard } from "@/components/sacred/sacred-card";
 import { SectionHeader } from "@/components/sacred/section-header";
 import { Button } from "@/components/ui/button";
 import { genesisWeeks } from "@/lib/genesis-journey-data";
+import { getPublicReleasedWeekByJourneySlug } from "@/lib/journeys";
 
 type PublicWeekPageProps = {
     params: Promise<{ week: string }>;
@@ -13,26 +14,32 @@ type PublicWeekPageProps = {
 
 export default async function PublicWeekPage({ params }: PublicWeekPageProps) {
     const { week } = await params;
-    const item = genesisWeeks.find((entry) => entry.week === week);
+    const publishedWeek = await getPublicReleasedWeekByJourneySlug("genesis", week);
+    const fallbackWeek = genesisWeeks.find((entry) => entry.week === week);
 
-    if (!item || item.status === "locked") {
+    if (!publishedWeek && (!fallbackWeek || fallbackWeek.status === "locked")) {
         notFound();
     }
+
+    const title = publishedWeek?.title ?? fallbackWeek?.title ?? "";
+    const reading = publishedWeek?.reading ?? fallbackWeek?.reading ?? "";
+    const christFocus = publishedWeek?.christ_focus ?? fallbackWeek?.christ ?? "";
+    const kingdomFocus = publishedWeek?.kingdom_focus ?? fallbackWeek?.kingdom ?? "";
 
     return (
         <PageShell>
             <section className="space-y-10">
                 <SectionHeader
-                    eyebrow={`Gênesis · semana ${item.week}`}
+                    eyebrow={`Genesis · semana ${publishedWeek?.week_number ?? fallbackWeek?.week ?? week}`}
                     title={
                         <>
-                            {item.title}
+                            {title}
                             <span className="block text-[#e8d7ad]">
-                                Uma abertura pública da temporada.
+                                Uma abertura publica da temporada.
                             </span>
                         </>
                     }
-                    description="Esta página pública apresenta a direção da semana. A biblioteca completa, os materiais e o envio de perguntas seguem na área autenticada."
+                    description="Esta pagina publica apresenta a direcao da semana. A biblioteca completa, os materiais e o envio de perguntas seguem na area autenticada."
                 />
 
                 <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr]">
@@ -42,9 +49,7 @@ export default async function PublicWeekPage({ params }: PublicWeekPageProps) {
                                 <p className="sacred-inscription text-[10px] text-[#d6b56d]">
                                     Leitura
                                 </p>
-                                <p className="mt-3 text-base leading-8 text-white/68">
-                                    {item.reading}
-                                </p>
+                                <p className="mt-3 text-base leading-8 text-white/68">{reading}</p>
                             </div>
 
                             <div className="rounded-2xl border border-[#d6b56d]/12 bg-[#d6b56d]/[0.05] p-4">
@@ -52,7 +57,7 @@ export default async function PublicWeekPage({ params }: PublicWeekPageProps) {
                                     Cristo no texto
                                 </p>
                                 <p className="mt-2 text-sm leading-7 text-white/62">
-                                    {item.christ}
+                                    {christFocus}
                                 </p>
                             </div>
 
@@ -61,7 +66,7 @@ export default async function PublicWeekPage({ params }: PublicWeekPageProps) {
                                     Reino no texto
                                 </p>
                                 <p className="mt-2 text-sm leading-7 text-white/62">
-                                    {item.kingdom}
+                                    {kingdomFocus}
                                 </p>
                             </div>
                         </div>
@@ -69,11 +74,11 @@ export default async function PublicWeekPage({ params }: PublicWeekPageProps) {
 
                     <SacredCard>
                         <p className="sacred-inscription text-[10px] text-[#d6b56d]">
-                            Próximo passo
+                            Proximo passo
                         </p>
                         <p className="mt-5 text-sm leading-8 text-white/60">
-                            Se você deseja seguir a temporada dentro da plataforma, com materiais
-                            e semanas liberadas conforme o ritmo da jornada, entre na área
+                            Se voce deseja seguir a temporada dentro da plataforma, com materiais
+                            e semanas liberadas conforme o ritmo da jornada, entre na area
                             autenticada.
                         </p>
 

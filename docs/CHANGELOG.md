@@ -21,3 +21,16 @@
 - Atualizacao da documentacao para o padrao de semanas publicas e PDFs futuros
 - Expansao da Semana 00 para carregar o estudo integral do material-base, incluindo metodo semanal, leituras complementares, mapa completo da temporada, exercicios, reflexoes e oracao final
 - Evolucao do admin para gestao editorial com rotas de criacao/edicao, soft delete, publicacao, release por data, semana atual e upload de PDF oficial em `weekly-pdfs`
+
+## 2026-05-14
+
+- Migracao do mapa mockado de jornadas para dados reais em `supabase/seed.sql`
+- Seed oficial agora cadastra as 10 jornadas da plataforma e as semanas `00` a `14` de `genesis`
+- Nova migration para adicionar `journeys.release_at` e ajustar a leitura autenticada de jornadas e semanas futuras
+- Separacao clara entre loaders de admin e loaders de usuario em `src/lib/journeys.ts`
+- Area autenticada agora mostra jornadas abertas e jornadas `Em breve` com estado bloqueado premium
+- Pagina da jornada agora exibe semanas liberadas e semanas futuras com data programada
+- Pagina da semana agora bloqueia o conteudo completo quando `release_at` ainda nao chegou
+- Pagina publica `/genesis` passou a respeitar dados do banco quando disponiveis, com fallback editorial
+- Criacao de `src/components/journey/status-badge.tsx` para padronizar estados como atual, liberada, em breve, programada, rascunho e bloqueada
+- Adicao do script `pnpm supabase:seed:remote` e documentacao para executar o seed remoto explicitamente via CLI

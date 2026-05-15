@@ -6,12 +6,13 @@ import {
     setCurrentWeekAction,
     toggleWeekPublishedAction,
 } from "@/app/actions/admin";
+import { StatusBadge } from "@/components/journey/status-badge";
 import { PageShell } from "@/components/sacred/page-shell";
 import { SacredCard } from "@/components/sacred/sacred-card";
 import { SectionHeader } from "@/components/sacred/section-header";
 import { Button } from "@/components/ui/button";
-import { formatDateTime, isReleased } from "@/lib/format";
-import { getAdminJourneys, getAdminWeeks } from "@/lib/journeys";
+import { formatDateTime } from "@/lib/format";
+import { getAdminWeekStatus, getAllJourneysForAdmin, getAllWeeksForAdmin } from "@/lib/journeys";
 
 type AdminWeeksProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -20,8 +21,8 @@ type AdminWeeksProps = {
 export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) {
     const [params, journeys, allWeeks] = await Promise.all([
         searchParams,
-        getAdminJourneys(),
-        getAdminWeeks(),
+        getAllJourneysForAdmin(),
+        getAllWeeksForAdmin(),
     ]);
     const success = typeof params.success === "string" ? params.success : null;
     const error = typeof params.error === "string" ? params.error : null;
@@ -37,7 +38,7 @@ export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) 
                     <SectionHeader
                         eyebrow="Admin · semanas"
                         title="Calendario editorial das semanas."
-                        description="Controle publicacao, liberacao, PDF oficial, video e semana atual."
+                        description="Controle publicacao, liberacao, PDF oficial, video e a semana atual de cada jornada."
                     />
                     <Button asChild className="h-11 rounded-full bg-[#d6b56d] text-black hover:bg-[#e7c979]">
                         <Link href="/admin/semanas/nova">
@@ -82,24 +83,44 @@ export default async function AdminWeeksPage({ searchParams }: AdminWeeksProps) 
 
                 <div className="space-y-4">
                     {weeks.map((week) => {
-                        const released = isReleased(week.release_at);
+                        const adminStatus = getAdminWeekStatus(week);
 
                         return (
                             <SacredCard key={week.id}>
                                 <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                                     <div>
-                                        <p className="sacred-inscription text-[10px] text-[#d6b56d]">
-                                            {week.journeys?.title ?? "Jornada"} · semana {week.week_number}
-                                        </p>
+                                        <div className="flex flex-wrap items-center gap-3">
+                                            <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                                {week.journeys?.title ?? "Jornada"} · semana {week.week_number}
+                                            </p>
+                                            <StatusBadge
+                                                status={
+                                                    adminStatus === "current"
+                                                        ? "current"
+                                                        : adminStatus === "published"
+                                                          ? "available"
+                                                          : adminStatus === "programmed"
+                                                            ? "programmed"
+                                                            : "draft"
+                                                }
+                                            />
+                                            {week.pdf_url ? (
+                                                <span className="inline-flex items-center rounded-full border border-[#d6b56d]/18 bg-[#d6b56d]/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#f0ddb0]">
+                                                    PDF pronto
+                                                </span>
+                                            ) : null}
+                                        </div>
+
                                         <h2 className="font-display mt-3 text-3xl text-white">
                                             {week.title}
                                         </h2>
-                                        <div className="mt-3 flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em] text-white/34">
+
+                                        <div className="mt-3 flex flex-wrap gap-3 text-xs uppercase tracking-[0.14em] text-white/34">
                                             <span>{week.is_published ? "publicada" : "rascunho"}</span>
-                                            <span>{released ? "liberada" : "agendada"}</span>
-                                            {week.is_current ? <span>semana atual</span> : null}
-                                            {week.pdf_url ? <span>pdf pronto</span> : <span>sem pdf</span>}
+                                            <span>{week.pdf_url ? "pdf pronto" : "pdf pendente"}</span>
+                                            <span>{week.video_url ? "video pronto" : "video pendente"}</span>
                                         </div>
+
                                         <p className="mt-3 text-sm leading-7 text-white/50">
                                             Liberacao: {formatDateTime(week.release_at)}
                                         </p>

@@ -9,7 +9,7 @@ import { getViewer } from "@/lib/auth";
 import { formatLongDate } from "@/lib/format";
 import {
     getCurrentJourneyWithWeek,
-    getPublishedJourneys,
+    getJourneysForUser,
     getViewerQuestions,
 } from "@/lib/journeys";
 
@@ -17,7 +17,7 @@ export default async function AppHomePage() {
     const [{ profile }, currentState, journeys] = await Promise.all([
         getViewer(),
         getCurrentJourneyWithWeek(),
-        getPublishedJourneys(),
+        getJourneysForUser(),
     ]);
 
     const questions = profile ? await getViewerQuestions(profile.id) : [];
@@ -107,7 +107,7 @@ export default async function AppHomePage() {
                                 Jornadas disponíveis
                             </h3>
                             <p className="mt-3 text-sm leading-7 text-white/56">
-                                {journeys.length} jornadas publicadas para leitura e formação.
+                                {journeys.length} jornadas cadastradas visiveis, com estados de abertura e liberacao.
                             </p>
                             <Link
                                 href="/app/jornadas"

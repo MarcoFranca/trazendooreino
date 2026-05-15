@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Lock, Sparkles } from "lucide-react";
 
-import type { Week } from "@/lib/supa-types";
+import { StatusBadge } from "@/components/journey/status-badge";
+import type { UserWeek } from "@/lib/journeys";
 import { cn } from "@/lib/utils";
 
 type WeekCardProps = {
     slug: string;
-    week: Week;
+    week: UserWeek;
     href: string;
     locked?: boolean;
 };
@@ -40,7 +41,11 @@ export function WeekCard({ slug, week, href, locked = false }: WeekCardProps) {
                 </div>
             </div>
 
-            <h3 className="font-display text-[1.55rem] font-semibold leading-tight tracking-[-0.03em] text-white">
+            <StatusBadge
+                status={locked ? "locked" : week.status === "current" ? "current" : week.status}
+            />
+
+            <h3 className="font-display mt-5 text-[1.55rem] font-semibold leading-tight tracking-[-0.03em] text-white">
                 {week.title}
             </h3>
 

@@ -42,6 +42,7 @@ function journeyPayload(formData: FormData) {
         subtitle: normalizeNullable(formData.get("subtitle")),
         description: normalizeNullable(formData.get("description")),
         cover_image: normalizeNullable(formData.get("cover_image")),
+        release_at: normalizeNullable(formData.get("release_at")),
         is_published: toBoolean(formData.get("is_published")),
     };
 }

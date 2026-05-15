@@ -2,7 +2,7 @@
 
 ## Conceito de jornada
 
-Uma jornada e um arco editorial de formacao biblica com capa, descricao, semanas e materiais.
+Uma jornada e um arco editorial de formacao biblica com capa, descricao, semanas, materiais e uma janela propria de abertura.
 
 ## Conceito de semana
 
@@ -10,51 +10,95 @@ Cada semana carrega:
 
 - leitura principal
 - resumo
+- conteudo editorial
 - foco em Cristo
 - foco no Reino
-- PDF complementar
+- PDF oficial
 - video ou webinar gravado
 - formulario de perguntas
 
-## Jornada inicial
+## Seed atual da plataforma
 
-- `genesis`
-- Titulo: `Genesis: Do Eden a Promessa`
+As jornadas cadastradas no seed oficial sao:
+
+- `genesis` · Gênesis: Do Éden à Promessa
+- `exodo` · Êxodo: Da Escravidão à Presença
+- `tora` · Torá: Santidade, Deserto e Aliança
+- `terra-prometida` · Terra Prometida: Conquista, Queda e Redenção
+- `reino-e-exilio` · Reino e Exílio: Davi, Idolatria, Profetas e Juízo
+- `escritos` · Escritos: Sabedoria, Louvor e Sofrimento
+- `profetas` · Profetas: Juízo, Nova Aliança e Esperança Messiânica
+- `evangelhos` · Evangelhos: O Rei chegou
+- `atos-e-cartas` · Atos e Cartas: O Reino em missão
+- `apocalipse` · Apocalipse: A consumação do Reino
+
+No momento:
+
+- `genesis` aparece aberta
+- as demais jornadas aparecem para o usuario como `Em breve`
+- todas as jornadas aparecem para o admin
+
+## Jornada acessivel vs bloqueada
+
+Uma jornada e considerada acessivel para o usuario quando:
+
+- `is_published = true`
+- `deleted_at is null`
+- `release_at is null` ou `release_at <= now()`
+
+Uma jornada pode aparecer para o usuario mesmo sem acesso completo quando:
+
+- `is_published = true`
+- `deleted_at is null`
+- `release_at > now()`
+
+Nesse caso, a UI mostra card bloqueado ou programado com data de abertura.
+
+## Semana acessivel vs futura
+
+Uma semana aparece na jornada do usuario quando:
+
+- `is_published = true`
+- `deleted_at is null`
+
+Uma semana fica acessivel somente quando:
+
+- `release_at <= now()`
+
+Quando `release_at > now()`:
+
+- a semana aparece no mapa da jornada
+- o card fica bloqueado
+- a tela da semana mostra estado premium de bloqueio
+- o conteudo completo nao e exibido
 
 ## Semana atual
 
 - Controlada por `weeks.is_current`
-- Apenas uma semana por jornada deve ser marcada como atual
+- Apenas uma semana por jornada deve permanecer com `is_current = true`
+- O seed inicial marca a semana `01` de `genesis` como atual
 
-## Regra de publicacao
+## Seed de Gênesis
 
-- Jornada aparece para usuarios quando `is_published = true` e `deleted_at is null`
-- Semana aparece quando `is_published = true`, `release_at <= now()` e `deleted_at is null`
-- Semanas futuras podem aparecer bloqueadas na pagina da jornada, com a data de liberacao
-- A pagina da semana usa `pdf_url` para o botao `Baixar PDF`
-- A pagina da semana usa `video_url` para o botao `Assistir encontro`
+O seed oficial cadastra as semanas `00` a `14` de `genesis`.
+
+Regras atuais:
+
+- Semana `00`: liberada
+- Semana `01`: liberada e atual
+- Semanas `02` a `14`: publicadas, mas com `release_at` futuro
+
+Isso permite:
+
+- admin visualizar todo o mapa editorial desde agora
+- usuario visualizar o mapa completo com bloqueios reais
+- area autenticada liberar o conteudo conforme a data
 
 ## Semana 00 publica
 
 - Rota: `/genesis/00`
 - Funcao: estabelecer a lente de leitura da temporada como estudo completo
 - Fonte editorial: conteudo integral da Semana 00, estruturado em `src/lib/genesis-week-00.ts`
-- Estrutura atual:
-  - hero editorial
-  - tese central
-  - leituras principais e de apoio
-  - preparacao para ler Genesis
-  - Cristo como chave da leitura
-  - Escritura como regra
-  - Evangelho como protecao
-  - Reino como mensagem
-  - graca, arrependimento e transformacao
-  - metodo semanal da jornada
-  - uso de leituras complementares
-  - filtros da jornada
-  - primeira temporada e mapa completo
-  - exercicios, reflexoes e oracao
-  - CTA para a Semana 01
 
 ## PDF imprimivel
 
@@ -65,17 +109,6 @@ Cada semana carrega:
   - clicar em `Baixar em PDF`
   - usar `window.print()`
   - salvar como PDF no dialogo do navegador
-
-## Padrao editorial para PDFs futuros
-
-- capa contemplativa
-- sumario visual
-- secoes com ritmo de livro, nao de dashboard
-- callouts editoriais
-- perguntas com espaco para resposta
-- oracao final
-- contracapa
-- estilo de impressao em A4 com page breaks controlados
 
 ## Recursos
 
