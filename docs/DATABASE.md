@@ -81,7 +81,6 @@
 
 ### Jornada visivel
 
-- `journeys.is_published = true`
 - `journeys.deleted_at is null`
 
 ### Jornada acessivel
@@ -89,6 +88,7 @@
 - `journeys.is_published = true`
 - `journeys.deleted_at is null`
 - `journeys.release_at is null` ou `journeys.release_at <= now()`
+- existe ao menos uma semana publicada ligada a ela
 
 ### Semana visivel no mapa da jornada
 
@@ -123,6 +123,7 @@
 ## RLS e policies
 
 - Usuarios autenticados podem ler jornadas publicadas e nao deletadas
+- Usuarios autenticados podem ler jornadas nao deletadas para que a aplicacao monte cards de `Em breve`, mesmo quando a jornada ainda nao esta acessivel
 - Usuarios autenticados podem ler semanas publicadas e nao deletadas, inclusive futuras, para que a UI mostre cards bloqueados
 - A decisao final de acesso ao conteudo da semana e feita pela aplicacao usando `release_at`
 - Admin possui CRUD completo em jornadas e semanas
@@ -153,4 +154,5 @@ O seed oficial agora cadastra:
 - Ajuste do trigger de profiles: `supabase/migrations/20260513094500_fix_profiles_trigger.sql`
 - Workflow editorial admin: `supabase/migrations/20260513103000_editorial_admin_workflow.sql`
 - Janela de abertura das jornadas: `supabase/migrations/20260514111500_journey_release_windows.sql`
+- Visibilidade do catalogo de jornadas para usuario autenticado: `supabase/migrations/20260515091000_user_journey_catalog_visibility.sql`
 - Seed oficial: `supabase/seed.sql`

@@ -233,11 +233,14 @@ function enrichUserJourney(journey: Journey, weeks: Week[]): UserJourney {
         weeks.find((week) => week.is_current && isWeekAccessible(week)) ??
         weeks.find((week) => isWeekAccessible(week)) ??
         null;
+    const baseAccessible = isJourneyAccessible(journey);
+    const baseStatus = getJourneyStatus(journey);
+    const hasVisibleWeeks = weeks.length > 0;
 
     return {
         ...journey,
-        isAccessible: isJourneyAccessible(journey),
-        status: getJourneyStatus(journey),
+        isAccessible: baseAccessible && hasVisibleWeeks,
+        status: hasVisibleWeeks ? baseStatus : baseStatus === "upcoming" ? "upcoming" : "locked",
         availableAt: journey.release_at ?? null,
         totalWeeks: weeks.length,
         releasedWeeks,
@@ -300,7 +303,6 @@ export async function getJourneysForUser() {
         await supabase
             .from("journeys")
             .select("*")
-            .eq("is_published", true)
             .is("deleted_at", null)
             .order("created_at", { ascending: true })
             .returns<Journey[]>()
@@ -321,7 +323,6 @@ export async function getJourneyForUser(slug: string) {
             .from("journeys")
             .select("*")
             .eq("slug", slug)
-            .eq("is_published", true)
             .is("deleted_at", null)
             .maybeSingle<Journey>()
     );

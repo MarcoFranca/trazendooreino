@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatDateTime } from "@/lib/format";
+import { genesisWeek00 } from "@/lib/genesis-week-00";
 import { getJourneyForUser, getWeekForUser } from "@/lib/journeys";
 
 type WeekPageProps = {
@@ -92,6 +93,9 @@ export default async function AuthenticatedWeekPage({
     const success = typeof query.success === "string" ? query.success : null;
     const error = typeof query.error === "string" ? query.error : null;
     const returnTo = `/app/jornadas/${slug}/${currentWeek.slug ?? currentWeek.week_number}`;
+    const showGenesisWeek00DeepDive =
+        slug === "genesis" &&
+        (currentWeek.slug === "00" || currentWeek.week_number === "00");
 
     return (
         <PageShell>
@@ -212,6 +216,195 @@ export default async function AuthenticatedWeekPage({
                             )}
                         </div>
                     </SacredCard>
+                ) : null}
+
+                {showGenesisWeek00DeepDive ? (
+                    <div className="space-y-6">
+                        <SacredCard>
+                            <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+                                <div>
+                                    <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                        Se aprofunde
+                                    </p>
+                                    <h2 className="font-display mt-5 text-4xl leading-tight tracking-[-0.04em] text-white">
+                                        O estudo completo desta semana continua alem do resumo.
+                                    </h2>
+                                    <p className="mt-5 text-sm leading-8 text-white/58">
+                                        A Semana 00 nao serve apenas como abertura da jornada. Ela
+                                        ajusta a lente com que todo Genesis sera lido: Cristo no
+                                        centro, Escritura como regra, Reino como mensagem e
+                                        transformacao como fruto.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-[1.7rem] border border-[#d6b56d]/12 bg-[#d6b56d]/[0.05] p-6">
+                                    <p className="sacred-inscription text-[9px] text-[#d6b56d]/80">
+                                        Tese central
+                                    </p>
+                                    <p className="mt-4 text-base leading-8 text-[#ead8ad]/84">
+                                        {genesisWeek00.thesis}
+                                    </p>
+                                </div>
+                            </div>
+                        </SacredCard>
+
+                        <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+                            <SacredCard>
+                                <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                    Antes de seguir
+                                </p>
+                                <div className="mt-5 space-y-4">
+                                    {genesisWeek00.intro.map((paragraph) => (
+                                        <p key={paragraph} className="text-sm leading-8 text-white/60">
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                            </SacredCard>
+
+                            <SacredCard>
+                                <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                    Leituras que orientam a lente
+                                </p>
+                                <div className="mt-5 grid gap-3">
+                                    {genesisWeek00.readings.map((reading) => (
+                                        <div
+                                            key={reading.reference}
+                                            className="rounded-[1.35rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4"
+                                        >
+                                            <p className="text-sm text-[#e8cc84]">{reading.reference}</p>
+                                            <p className="mt-2 text-sm leading-7 text-white/56">
+                                                {reading.description}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </SacredCard>
+                        </div>
+
+                        <div className="grid gap-5">
+                            {genesisWeek00.sections.map((section) => (
+                                <SacredCard key={section.id}>
+                                    <div className="grid gap-6 lg:grid-cols-[0.34fr_0.66fr]">
+                                        <div>
+                                            <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                                {section.eyebrow}
+                                            </p>
+                                            <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.04em] text-white">
+                                                {section.title}
+                                            </h3>
+                                        </div>
+
+                                        <div className="space-y-5">
+                                            {section.body.map((paragraph) => (
+                                                <p
+                                                    key={paragraph}
+                                                    className="text-sm leading-8 text-white/60"
+                                                >
+                                                    {paragraph}
+                                                </p>
+                                            ))}
+
+                                            {section.bullets ? (
+                                                <div className="grid gap-3 md:grid-cols-2">
+                                                    {section.bullets.map((item) => (
+                                                        <div
+                                                            key={item}
+                                                            className="rounded-[1.25rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4 text-sm leading-7 text-white/58"
+                                                        >
+                                                            {item}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : null}
+
+                                            {section.questions ? (
+                                                <div className="rounded-[1.45rem] border border-[#d6b56d]/12 bg-black/24 p-5">
+                                                    <p className="sacred-inscription text-[9px] text-[#d6b56d]/80">
+                                                        Perguntas de leitura
+                                                    </p>
+                                                    <div className="mt-4 space-y-3">
+                                                        {section.questions.map((item) => (
+                                                            <p
+                                                                key={item}
+                                                                className="text-sm leading-7 text-white/58"
+                                                            >
+                                                                {item}
+                                                            </p>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                </SacredCard>
+                            ))}
+                        </div>
+
+                        <div className="grid gap-5 lg:grid-cols-[1.02fr_0.98fr]">
+                            <SacredCard>
+                                <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                    Filtros da jornada
+                                </p>
+                                <div className="mt-5 grid gap-3">
+                                    {genesisWeek00.filters.map((filter, index) => (
+                                        <div
+                                            key={filter.question}
+                                            className="rounded-[1.3rem] border border-[#d6b56d]/10 bg-black/22 p-4"
+                                        >
+                                            <p className="text-sm leading-7 text-white/72">
+                                                <span className="mr-2 text-[#e8cc84]">
+                                                    {String(index + 1).padStart(2, "0")}
+                                                </span>
+                                                {filter.question}
+                                            </p>
+                                            <p className="mt-2 text-sm leading-7 text-white/52">
+                                                {filter.detail}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </SacredCard>
+
+                            <div className="grid gap-5">
+                                <SacredCard>
+                                    <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                        Perguntas de reflexao
+                                    </p>
+                                    <div className="mt-5 grid gap-3">
+                                        {genesisWeek00.reflectionQuestions.slice(0, 5).map((question) => (
+                                            <div
+                                                key={question}
+                                                className="rounded-[1.25rem] border border-[#d6b56d]/10 bg-[#d6b56d]/[0.04] p-4 text-sm leading-7 text-white/58"
+                                            >
+                                                {question}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </SacredCard>
+
+                                <SacredCard>
+                                    <p className="sacred-inscription text-[10px] text-[#d6b56d]">
+                                        Oracao da semana
+                                    </p>
+                                    <div className="mt-5 space-y-3">
+                                        {genesisWeek00.prayer.slice(0, 6).map((line) => (
+                                            <p key={line} className="text-sm leading-8 text-white/62">
+                                                {line}
+                                            </p>
+                                        ))}
+                                    </div>
+                                    <Button
+                                        asChild
+                                        variant="outline"
+                                        className="mt-6 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] text-white hover:bg-[#d6b56d]/[0.08]"
+                                    >
+                                        <Link href="/genesis/00/pdf">Abrir material editorial completo</Link>
+                                    </Button>
+                                </SacredCard>
+                            </div>
+                        </div>
+                    </div>
                 ) : null}
 
                 <SacredCard>

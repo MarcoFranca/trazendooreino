@@ -42,6 +42,12 @@ Estados editoriais de jornada:
 - `programada`: `is_published = true` e `release_at > now()`
 - `publicada`: `is_published = true` e `release_at is null` ou `release_at <= now()`
 
+Na area do usuario:
+
+- jornadas futuras aparecem como `Em breve`
+- jornadas sem semanas abertas aparecem bloqueadas
+- jornadas abertas usam `cover_image` como base do hero autenticado quando disponivel
+
 ## Fluxo de semana
 
 1. Criar semana em `/admin/semanas/nova`
@@ -58,6 +64,13 @@ Estados editoriais de semana:
 - `programada`: `is_published = true` e `release_at > now()`
 - `publicada`: `is_published = true` e `release_at <= now()`
 - `atual`: `is_current = true`
+
+Na area do usuario:
+
+- semanas liberadas ficam clicaveis
+- a semana atual aparece destacada
+- semanas futuras ficam bloqueadas com data
+- a pagina completa respeita a ordem `PDF > video > conteudo`
 
 ## Semana atual
 

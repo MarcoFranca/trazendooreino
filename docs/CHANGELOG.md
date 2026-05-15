@@ -34,3 +34,12 @@
 - Pagina publica `/genesis` passou a respeitar dados do banco quando disponiveis, com fallback editorial
 - Criacao de `src/components/journey/status-badge.tsx` para padronizar estados como atual, liberada, em breve, programada, rascunho e bloqueada
 - Adicao do script `pnpm supabase:seed:remote` e documentacao para executar o seed remoto explicitamente via CLI
+
+## 2026-05-15
+
+- Redirecionamento de `/genesis/[week]` para a experiencia autenticada em `/app/jornadas/genesis/[week]`
+- Refinamento visual de `/app/jornadas` e `/app/jornadas/[slug]` com atmosfera mais editorial e uso de `cover_image`
+- Ajuste da camada de jornadas para exibir todo o catalogo nao deletado ao usuario, com estados bloqueado, em breve e liberado
+- Nova migration para permitir leitura do catalogo de jornadas por usuarios autenticados sem abrir o conteudo antes da hora
+- Refinamento dos cards de semanas para recuperar hierarquia editorial, data embutida e CTA menos generico
+- Reaproveitamento do estudo integral da antiga Semana 00 dentro de `/app/jornadas/genesis/00`, em um bloco `Se aprofunde`
