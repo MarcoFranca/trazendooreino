@@ -16,9 +16,20 @@ import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { genesisWeek00 } from "@/lib/genesis-week-00";
 import { getPublicReleasedWeekByJourneySlug } from "@/lib/journeys";
+import { getWeekPdfHref, getWeekPdfLabel } from "@/lib/week-resource-links";
 
 export default async function GenesisWeek00Page() {
     const publishedWeek = await getPublicReleasedWeekByJourneySlug("genesis", "00");
+    const pdfHref = getWeekPdfHref("genesis", {
+        pdf_url: publishedWeek?.pdf_url ?? null,
+        slug: publishedWeek?.slug ?? "00",
+        week_number: publishedWeek?.week_number ?? "00",
+    });
+    const pdfLabel = getWeekPdfLabel("genesis", {
+        pdf_url: publishedWeek?.pdf_url ?? null,
+        slug: publishedWeek?.slug ?? "00",
+        week_number: publishedWeek?.week_number ?? "00",
+    });
 
     return (
         <>
@@ -81,18 +92,29 @@ export default async function GenesisWeek00Page() {
                                     </Link>
                                 </Button>
 
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
-                                >
-                                    <Link href={publishedWeek?.pdf_url ?? "/genesis/00/pdf"}>
-                                        {publishedWeek?.pdf_url
-                                            ? "Baixar PDF oficial"
-                                            : "Abrir versao em PDF"}
-                                        <Download className="size-5" />
-                                    </Link>
-                                </Button>
+                                {pdfHref?.startsWith("http") ? (
+                                    <Button
+                                        asChild
+                                        variant="outline"
+                                        className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
+                                    >
+                                        <a href={pdfHref} target="_blank" rel="noreferrer">
+                                            {pdfLabel}
+                                            <Download className="size-5" />
+                                        </a>
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        asChild
+                                        variant="outline"
+                                        className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
+                                    >
+                                        <Link href={pdfHref ?? "/genesis/00/pdf"}>
+                                            {pdfLabel}
+                                            <Download className="size-5" />
+                                        </Link>
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -640,18 +662,29 @@ export default async function GenesisWeek00Page() {
                                 </Link>
                             </Button>
 
-                            <Button
-                                asChild
-                                variant="outline"
-                                className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
-                            >
-                                <Link href={publishedWeek?.pdf_url ?? "/genesis/00/pdf"}>
-                                    {publishedWeek?.pdf_url
-                                        ? "Baixar PDF oficial"
-                                        : "Abrir o material para impressao"}
-                                    <Download className="size-5" />
-                                </Link>
-                            </Button>
+                            {pdfHref?.startsWith("http") ? (
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
+                                >
+                                    <a href={pdfHref} target="_blank" rel="noreferrer">
+                                        {pdfLabel}
+                                        <Download className="size-5" />
+                                    </a>
+                                </Button>
+                            ) : (
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    className="h-14 rounded-full border-[#d6b56d]/18 bg-[#d6b56d]/[0.04] px-8 text-white hover:bg-[#d6b56d]/[0.08]"
+                                >
+                                    <Link href={pdfHref ?? "/genesis/00/pdf"}>
+                                        {pdfLabel}
+                                        <Download className="size-5" />
+                                    </Link>
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </section>

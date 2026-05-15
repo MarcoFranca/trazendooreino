@@ -43,3 +43,5 @@
 - Nova migration para permitir leitura do catalogo de jornadas por usuarios autenticados sem abrir o conteudo antes da hora
 - Refinamento dos cards de semanas para recuperar hierarquia editorial, data embutida e CTA menos generico
 - Reaproveitamento do estudo integral da antiga Semana 00 dentro de `/app/jornadas/genesis/00`, em um bloco `Se aprofunde`
+- Ajuste do fluxo de PDF para ignorar URLs placeholder, abrir fallback editorial funcional na Semana 00 e evitar downloads quebrados em semanas sem arquivo real
+- Ajuste dos links de PDF reais para solicitar download do arquivo do Storage, em vez de abrir apenas a visualizacao inline

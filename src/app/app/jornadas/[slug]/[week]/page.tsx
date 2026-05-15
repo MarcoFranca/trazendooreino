@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatDateTime } from "@/lib/format";
 import { genesisWeek00 } from "@/lib/genesis-week-00";
 import { getJourneyForUser, getWeekForUser } from "@/lib/journeys";
+import { getWeekPdfHref, getWeekPdfLabel, getWeekVideoHref } from "@/lib/week-resource-links";
 
 type WeekPageProps = {
     params: Promise<{ slug: string; week: string }>;
@@ -96,6 +97,9 @@ export default async function AuthenticatedWeekPage({
     const showGenesisWeek00DeepDive =
         slug === "genesis" &&
         (currentWeek.slug === "00" || currentWeek.week_number === "00");
+    const pdfHref = getWeekPdfHref(slug, currentWeek);
+    const pdfLabel = getWeekPdfLabel(slug, currentWeek);
+    const videoHref = getWeekVideoHref(currentWeek);
 
     return (
         <PageShell>
@@ -171,23 +175,25 @@ export default async function AuthenticatedWeekPage({
                     <div className="grid gap-4">
                         <ResourceCard
                             icon={Download}
-                            title="Baixar PDF"
+                            title={pdfLabel}
                             text={
-                                currentWeek.pdf_url
-                                    ? "Material oficial da semana para leitura e estudo."
+                                pdfHref
+                                    ? pdfHref === "/genesis/00/pdf"
+                                        ? "Versao editorial pronta para abrir e salvar como PDF pelo navegador."
+                                        : "Material oficial da semana para leitura e estudo."
                                     : "PDF em preparacao."
                             }
-                            href={currentWeek.pdf_url}
+                            href={pdfHref}
                         />
                         <ResourceCard
                             icon={PlayCircle}
                             title="Assistir encontro"
                             text={
-                                currentWeek.video_url
+                                videoHref
                                     ? "Acesse a preparacao ou o encontro gravado."
                                     : "Encontro em preparacao."
                             }
-                            href={currentWeek.video_url}
+                            href={videoHref}
                         />
                         <ResourceCard
                             icon={CalendarDays}

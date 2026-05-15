@@ -143,6 +143,13 @@ Esse bloco existe para que o usuario logado encontre, dentro da propria jornada,
   - usar `window.print()`
   - salvar como PDF no dialogo do navegador
 
+## Fallback de PDF
+
+- Quando `weeks.pdf_url` aponta para um arquivo real, a plataforma usa esse link como PDF oficial
+- Links reais de PDF passam a receber parametro de download para induzir o navegador a baixar o arquivo, em vez de apenas abri-lo inline
+- Quando `pdf_url` estiver ausente ou ainda for placeholder de seed, a Semana `00` de `genesis` cai automaticamente em `/genesis/00/pdf`
+- Demais semanas sem arquivo real exibem `PDF em preparacao`, em vez de prometer um download quebrado
+
 ## Recursos
 
 - `pdf_url`

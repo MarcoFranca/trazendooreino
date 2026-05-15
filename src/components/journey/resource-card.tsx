@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
 type ResourceCardProps = {
@@ -28,9 +29,15 @@ export function ResourceCard({ icon: Icon, title, text, href }: ResourceCardProp
         return content;
     }
 
-    return (
-        <a href={href} target="_blank" rel="noreferrer">
-            {content}
-        </a>
-    );
+    const isExternal = /^https?:\/\//.test(href);
+
+    if (isExternal) {
+        return (
+            <a href={href} target="_blank" rel="noreferrer">
+                {content}
+            </a>
+        );
+    }
+
+    return <Link href={href}>{content}</Link>;
 }
